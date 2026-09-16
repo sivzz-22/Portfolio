@@ -1,0 +1,173 @@
+/* ===================================================================
+   ACHIEVEMENTS & CERTIFICATIONS SECTION STYLES
+   =================================================================== */
+
+.achieve-cert-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.achieve-block-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.achieve-block-title svg {
+  color: var(--spider-red-glow);
+}
+
+/* Certifications Featured Card */
+.cert-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.cert-card {
+  background: linear-gradient(135deg, rgba(14, 18, 26, 0.9), rgba(20, 26, 38, 0.75));
+  border: 1px solid rgba(230, 36, 41, 0.3);
+  border-radius: 16px;
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.cert-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at top right, rgba(230, 36, 41, 0.35), transparent 70%);
+  pointer-events: none;
+}
+
+.cert-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--spider-red-glow);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(230, 36, 41, 0.3);
+}
+
+.cert-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cert-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  background: rgba(230, 36, 41, 0.15);
+  border: 1px solid rgba(230, 36, 41, 0.3);
+  color: var(--spider-red-glow);
+}
+
+.cert-date {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.cert-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+}
+
+.cert-issuer {
+  font-size: 0.9rem;
+  color: var(--spider-blue-glow);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.cert-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Achievements Grid */
+.achieve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.achieve-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  position: relative;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+}
+
+.achieve-card:hover {
+  border-color: rgba(18, 102, 241, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 18px rgba(18, 102, 241, 0.25);
+}
+
+.achieve-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.achieve-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(18, 102, 241, 0.12);
+  border: 1px solid rgba(18, 102, 241, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--spider-blue-glow);
+}
+
+.achieve-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}
+
+.achieve-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.achieve-desc {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}

@@ -1,0 +1,298 @@
+/* ===================================================================
+   HERO SECTION STYLES
+   =================================================================== */
+
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 5.5rem;
+  padding-bottom: 3rem;
+  overflow: hidden;
+}
+
+/* Atmospheric Miles Morales Cinematic Backdrop (Image 1) */
+.hero-atmosphere-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 35%, rgba(230, 26, 34, 0.22) 0%, rgba(139, 10, 15, 0.1) 45%, transparent 75%),
+              radial-gradient(circle at 20% 70%, rgba(18, 102, 241, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-atmosphere-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(230, 36, 41, 0.03) 0px,
+    rgba(230, 36, 41, 0.03) 1px,
+    transparent 1px,
+    transparent 28px
+  );
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 3rem;
+  position: relative;
+  z-index: 5;
+}
+
+/* Left Content Column */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--spider-blue-glow);
+  background: rgba(18, 102, 241, 0.12);
+  border: 1px solid rgba(18, 102, 241, 0.35);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 15px rgba(18, 102, 241, 0.2);
+}
+
+.hero-badge-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--spider-red-glow);
+  box-shadow: 0 0 8px var(--spider-red-glow);
+  animation: spiderPulse 2s infinite;
+}
+
+@keyframes spiderPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.hero-greeting {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.2em;
+  color: var(--spider-red-glow);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero-name {
+  font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 70%, var(--spider-blue-glow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 16px rgba(255, 255, 255, 0.1));
+}
+
+.hero-role-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero-role {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(1.15rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  color: var(--text-accent-blue);
+  font-family: var(--font-mono);
+}
+
+.hero-role-dot {
+  color: var(--spider-red-glow);
+}
+
+/* Miles Morales Inspired Dynamic Tag (Image 1 Style) */
+.miles-script-tag {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.miles-script-tag span {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: #ffffff;
+  background: linear-gradient(90deg, #ff1f26, #b30f14);
+  padding: 0.2rem 0.75rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transform: skewX(-8deg);
+  box-shadow: 0 0 14px rgba(230, 36, 41, 0.55);
+}
+
+.hero-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 580px;
+  margin-bottom: 2.25rem;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Quick Resume / Tech Highlights */
+.hero-highlights {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+}
+
+.highlight-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.highlight-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.highlight-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Right 3D Scene Column */
+.hero-scene-wrapper {
+  width: 100%;
+  height: 520px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.three-canvas-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.three-canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
+/* Floating HUD elements over 3D scene */
+.scene-badge-top {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(6, 7, 10, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(230, 36, 41, 0.4);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--spider-red-glow);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.scene-badge-bottom {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: rgba(6, 7, 10, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(18, 102, 241, 0.4);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--spider-blue-glow);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+  .hero-content {
+    align-items: center;
+  }
+  .hero-actions {
+    justify-content: center;
+  }
+  .hero-highlights {
+    justify-content: center;
+  }
+  .hero-scene-wrapper {
+    height: 420px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-scene-wrapper {
+    height: 340px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-spider-primary,
+  .btn-spider-secondary {
+    width: 100%;
+  }
+  .hero-highlights {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

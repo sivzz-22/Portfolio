@@ -1,0 +1,146 @@
+/* ===================================================================
+   EDUCATION SECTION STYLES
+   =================================================================== */
+
+.education-timeline-container {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+  padding: 1rem 0;
+}
+
+/* Glowing central web thread / line */
+.timeline-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 28px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--spider-red), var(--spider-blue), var(--spider-red-glow));
+  box-shadow: 0 0 10px rgba(230, 36, 41, 0.4);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 70px;
+  margin-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Glowing Node on the line */
+.timeline-node {
+  position: absolute;
+  left: 17px;
+  top: 1.5rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #06070a;
+  border: 2px solid var(--spider-red-glow);
+  box-shadow: 0 0 12px var(--spider-red-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.timeline-node::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--spider-blue-glow);
+  box-shadow: 0 0 6px var(--spider-blue-glow);
+}
+
+.timeline-item:nth-child(even) .timeline-node {
+  border-color: var(--spider-blue-glow);
+  box-shadow: 0 0 12px var(--spider-blue-glow);
+}
+
+.timeline-item:nth-child(even) .timeline-node::after {
+  background: var(--spider-red-glow);
+  box-shadow: 0 0 6px var(--spider-red-glow);
+}
+
+/* Glass Card */
+.timeline-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.timeline-card:hover {
+  border-color: rgba(18, 102, 241, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(18, 102, 241, 0.2);
+  transform: translateX(4px);
+}
+
+.timeline-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-degree {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.timeline-score-badge {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  background: rgba(230, 36, 41, 0.15);
+  border: 1px solid rgba(230, 36, 41, 0.35);
+  color: var(--spider-red-glow);
+  box-shadow: 0 0 10px rgba(230, 36, 41, 0.2);
+}
+
+.timeline-institution {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-accent-blue);
+  margin-bottom: 0.4rem;
+}
+
+.timeline-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .timeline-track {
+    left: 16px;
+  }
+  .timeline-node {
+    left: 5px;
+  }
+  .timeline-item {
+    padding-left: 45px;
+  }
+}

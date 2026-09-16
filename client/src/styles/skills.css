@@ -1,0 +1,178 @@
+/* ===================================================================
+   SKILLS SECTION STYLES
+   =================================================================== */
+
+.skills-category-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.skill-tab-btn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.skill-tab-btn:hover {
+  color: #ffffff;
+  border-color: rgba(230, 36, 41, 0.4);
+  background: rgba(230, 36, 41, 0.08);
+}
+
+.skill-tab-btn.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(230, 36, 41, 0.25), rgba(18, 102, 241, 0.25));
+  border-color: var(--spider-red-glow);
+  box-shadow: 0 0 15px rgba(230, 36, 41, 0.3);
+}
+
+/* Skills Cards Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.skill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: default;
+  overflow: hidden;
+}
+
+.skill-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(230, 36, 41, 0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(230, 36, 41, 0.5);
+  box-shadow: 0 8px 25px rgba(230, 36, 41, 0.25), 0 0 15px rgba(18, 102, 241, 0.15);
+}
+
+.skill-card:hover::after {
+  opacity: 1;
+}
+
+.skill-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--spider-blue-glow);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.skill-card:hover .skill-icon-wrap {
+  background: rgba(230, 36, 41, 0.2);
+  border-color: var(--spider-red-glow);
+  color: #ffffff;
+  transform: rotate(5deg) scale(1.05);
+}
+
+.skill-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.skill-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Category Container for All-in-one View */
+.skills-category-group {
+  margin-bottom: 2.5rem;
+}
+
+.category-group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.category-group-title {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--spider-blue-glow);
+}
+
+.category-group-count {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Languages and Soft skills Pills */
+.soft-skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.soft-pill {
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  background: rgba(18, 102, 241, 0.08);
+  border: 1px solid rgba(18, 102, 241, 0.25);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-fast);
+}
+
+.soft-pill:hover {
+  background: rgba(230, 36, 41, 0.15);
+  border-color: var(--spider-red-glow);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
