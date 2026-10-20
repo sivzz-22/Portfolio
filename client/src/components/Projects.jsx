@@ -88,8 +88,7 @@ export default function Projects() {
             return (
               <article
                 key={project.id}
-                className={`project-card ${slideClass}`}
-                style={{ transitionDelay: `${idx * 0.14}s` }}
+                className={`project-card ${slideClass} delay-${(idx + 1) * 150}`}
               >
               {/* Top Generative Visual Canvas */}
               <div className="project-visual-wrapper">

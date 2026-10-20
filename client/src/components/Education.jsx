@@ -32,8 +32,7 @@ export default function Education() {
           {education.map((item, idx) => (
             <div
               key={idx}
-              className={`timeline-item ${idx % 2 === 0 ? 'reveal-slide-left' : 'reveal-slide-right'}`}
-              style={{ transitionDelay: `${idx * 0.15}s` }}
+              className={`timeline-item ${idx % 2 === 0 ? 'reveal-slide-left' : 'reveal-slide-right'} delay-${Math.min((idx + 1) * 150, 400)}`}
             >
               <div className="timeline-node" />
 

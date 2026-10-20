@@ -16,29 +16,34 @@ export default function useScrollReveal() {
       return;
     }
 
-    const observerCallback = (entries, observer) => {
+    const observerCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
+        } else {
+          // Revert effect when scrolling back out of view
+          entry.target.classList.remove('is-revealed');
         }
       });
     };
 
     const observerOptions = {
       root: null,
-      rootMargin: '0px 0px -60px 0px',
-      threshold: 0.12,
+      rootMargin: '10px 0px -45px 0px',
+      threshold: 0.08,
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    const observedSet = new WeakSet();
 
     const observeElements = () => {
       const elements = document.querySelectorAll(
         '.reveal-slide-up, .reveal-slide-down, .reveal-slide-left, .reveal-slide-right, .reveal-slide-scale, .section-slide-separator, .section-header'
       );
       elements.forEach((el) => {
-        if (!el.classList.contains('is-revealed')) {
+        if (!observedSet.has(el)) {
+          observedSet.add(el);
           observer.observe(el);
         }
       });

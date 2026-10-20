@@ -58,8 +58,7 @@ export default function Skills() {
       {items.map((skill, idx) => (
         <div
           key={idx}
-          className="skill-card reveal-slide-up"
-          style={{ transitionDelay: `${(idx % 8) * 0.05}s` }}
+          className={`skill-card reveal-slide-up delay-${Math.min((idx % 8 + 1) * 50, 400)}`}
           onMouseMove={handleMouseMove}
         >
           <div className="skill-icon-wrap">

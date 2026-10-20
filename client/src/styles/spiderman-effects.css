@@ -149,9 +149,9 @@
    ------------------------------------------------------------- */
 .hanging-spidey-anchor {
   position: fixed;
-  top: 0;
-  right: 170px;
-  z-index: 1002;
+  top: 68px;
+  right: clamp(16px, 2.5vw, 36px);
+  z-index: 998;
   cursor: pointer;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
 }
@@ -163,9 +163,9 @@
   pointer-events: auto;
 }
 
-/* When scrolling down: Spidey pulls up into the ceiling */
+/* When scrolling down: Spidey pulls up safely behind the navbar */
 .hanging-spidey-anchor.retracted-on-scroll {
-  transform: translateY(-160px);
+  transform: translateY(-130px);
   opacity: 0;
   pointer-events: none;
 }
@@ -236,8 +236,9 @@
 
 @media (max-width: 900px) {
   .hanging-spidey-anchor {
-    right: 70px;
-    scale: 0.85;
+    top: 62px;
+    right: 18px;
+    scale: 0.82;
   }
 }
 
