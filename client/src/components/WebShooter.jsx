@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSpiderTheme } from '../context/SpiderThemeContext';
 
 export default function WebShooter() {
+  const { isSpiderMode } = useSpiderTheme();
   const [webs, setWebs] = useState([]);
   const [splats, setSplats] = useState([]);
-  const [shooterActive, setShooterActive] = useState(true);
   const nextId = useRef(0);
 
   // Shoot a web ball and create an impact pasted spider web
@@ -60,18 +61,17 @@ export default function WebShooter() {
   };
 
   useEffect(() => {
-    if (!shooterActive) return;
+    if (!isSpiderMode) return;
 
     const handleClick = (e) => {
       const target = e.target;
-      // Ignore clicks on inputs, buttons, or HUD controls
+      // Ignore clicks on inputs, buttons, or links
       if (
         target.closest('input') ||
         target.closest('textarea') ||
         target.closest('button') ||
         target.closest('a') ||
-        target.closest('.web-shooter-toggle') ||
-        target.closest('.crawler-toggle-btn') ||
+        target.closest('.theme-master-toggle') ||
         target.closest('.hanging-spidey-anchor')
       ) {
         return;
@@ -82,7 +82,9 @@ export default function WebShooter() {
 
     window.addEventListener('click', handleClick);
     return () => window.removeEventListener('click', handleClick);
-  }, [shooterActive]);
+  }, [isSpiderMode]);
+
+  if (!isSpiderMode) return null;
 
   return (
     <div className="web-shooter-layer">
@@ -193,18 +195,6 @@ export default function WebShooter() {
           </svg>
         </div>
       ))}
-
-      {/* Floating HUD Controller */}
-      <div className="web-shooter-hud-control">
-        <button
-          className={`web-shooter-toggle ${shooterActive ? 'active' : ''}`}
-          onClick={() => setShooterActive(!shooterActive)}
-          title="Click to toggle web slinging"
-        >
-          <span className="shooter-icon">🕸️</span>
-          <span>{shooterActive ? 'WEB-SLINGER: ON' : 'WEB-SLINGER: OFF'}</span>
-        </button>
-      </div>
     </div>
   );
 }

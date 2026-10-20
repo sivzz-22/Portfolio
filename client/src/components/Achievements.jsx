@@ -27,7 +27,7 @@ export default function Achievements() {
 
         <div className="achieve-cert-wrapper">
           {/* Professional Certifications */}
-          <div>
+          <div className="reveal-slide-left">
             <h3 className="achieve-block-title">
               <ShieldCheck size={20} />
               <span>Professional Industry Certifications</span>
@@ -49,7 +49,7 @@ export default function Achievements() {
           </div>
 
           {/* Honors & Activities */}
-          <div>
+          <div className="reveal-slide-right">
             <h3 className="achieve-block-title">
               <Star size={20} color="var(--spider-blue-glow)" />
               <span>Competitions & Club Activities</span>

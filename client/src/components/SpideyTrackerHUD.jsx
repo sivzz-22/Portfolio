@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Terminal, X, ShieldAlert, Cpu, Radio, Sparkles } from 'lucide-react';
+import { Mail, MessageSquare, Send, Check, X, Radio, ArrowDown, ExternalLink, Copy } from 'lucide-react';
+import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
 
 export default function SpideyTrackerHUD() {
+  const { isSpiderMode } = useSpiderTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [swung, setSwung] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const { personal } = portfolioData;
+  const [copied, setCopied] = useState(false);
+  const [quickMsg, setQuickMsg] = useState('');
+  const [quickName, setQuickName] = useState('');
+  const [sent, setSent] = useState(false);
+  const { personal, social } = portfolioData;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,76 +28,98 @@ export default function SpideyTrackerHUD() {
     setTimeout(() => setSwung(false), 800);
   };
 
-  // When at top of page, Spidey stays retracted/peeking at top
-  // When scrolling down, Spidey extends web thread and comes down into view!
-  const isAtTop = scrollY < 40;
-  const threadLength = isAtTop ? 18 : Math.min(210, 45 + Math.floor(scrollY * 0.22));
+  const handleCopyEmail = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(personal.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleScrollToContact = () => {
+    setIsOpen(false);
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSendQuickSignal = (e) => {
+    e.preventDefault();
+    if (!quickMsg.trim()) return;
+    setSent(true);
+    setTimeout(() => {
+      setSent(false);
+      setQuickMsg('');
+      setQuickName('');
+    }, 3000);
+  };
+
+  // When at top of page (scrollY < 60), Spidey is OUT and fully visible!
+  // When scrolling down, Spidey retracts up into ceiling so he doesn't block content.
+  const isAtTop = scrollY < 60;
+
+  if (!isSpiderMode) return null;
 
   return (
     <>
       {/* -------------------------------------------------------------
-          1. HANGING UPSIDE-DOWN SPIDER-MAN MASCOT (Image 3 Concept)
-          Suspended from top on an elastic web strand:
-          - Tucked at top when scrollY is 0
-          - Descends smoothly down as you scroll down the page!
+          1. HANGING UPSIDE-DOWN SPIDER-MAN MASCOT (Contact Terminal)
           ------------------------------------------------------------- */}
       <div
-        className={`hanging-spidey-anchor ${swung ? 'swing-active' : ''} ${isAtTop ? 'at-top' : 'descended'}`}
+        id="spidey-contact-anchor"
+        className={`hanging-spidey-anchor ${isAtTop ? 'out-at-top' : 'retracted-on-scroll'}`}
         onClick={handleMascotClick}
-        title="Click Spidey to open Cyber Tracker Telemetry HUD!"
+        title="Click Spidey for Quick Contact & Transmission!"
       >
-        {/* Dynamic Elastic Web Thread that lengthens on scroll */}
-        <div
-          className="hanging-web-thread"
-          style={{ height: `${threadLength}px` }}
-        />
+        <div className={`hanging-spidey-pivot ${swung ? 'swing-active' : ''}`}>
+          {/* Fixed-length Elastic Web Thread */}
+          <div className="hanging-web-thread" />
 
-        {/* Hanging Upside-Down Spidey Silhouette */}
-        <div className="hanging-spidey-body">
-          <svg viewBox="0 0 60 75" width="48" height="60" fill="none">
-            {/* Hanging Web Loop around feet */}
-            <path d="M 30 0 L 30 15 C 28 17 32 17 30 20" stroke="#ffffff" strokeWidth="1.5" />
+          {/* Hanging Upside-Down Spidey Silhouette */}
+          <div className="hanging-spidey-body">
+            <svg viewBox="0 0 60 75" width="48" height="60" fill="none">
+              {/* Hanging Web Loop around feet */}
+              <path d="M 30 0 L 30 15 C 28 17 32 17 30 20" stroke="#ffffff" strokeWidth="1.5" />
 
-            {/* Inverted Torso & Red Suit */}
-            <path
-              d="M 22 20 L 38 20 L 36 38 L 30 45 L 24 38 Z"
-              fill="#e61a22"
-              stroke="#990a0f"
-              strokeWidth="1.2"
-            />
-            {/* Blue Suit Side Accents */}
-            <path d="M 22 20 L 26 22 L 25 36 L 24 38 Z" fill="#1266f1" />
-            <path d="M 38 20 L 34 22 L 35 36 L 36 38 Z" fill="#1266f1" />
+              {/* Inverted Torso & Red Suit */}
+              <path
+                d="M 22 20 L 38 20 L 36 38 L 30 45 L 24 38 Z"
+                fill="#e61a22"
+                stroke="#990a0f"
+                strokeWidth="1.2"
+              />
+              {/* Blue Suit Side Accents */}
+              <path d="M 22 20 L 26 22 L 25 36 L 24 38 Z" fill="#1266f1" />
+              <path d="M 38 20 L 34 22 L 35 36 L 36 38 Z" fill="#1266f1" />
 
-            {/* Inverted Head (Upside Down) */}
-            <ellipse cx="30" cy="55" rx="11" ry="13" fill="#e61a22" stroke="#990a0f" strokeWidth="1.2" />
+              {/* Inverted Head (Upside Down) */}
+              <ellipse cx="30" cy="55" rx="11" ry="13" fill="#e61a22" stroke="#990a0f" strokeWidth="1.2" />
 
-            {/* Iconic Angled White Spider Eyes */}
-            <path
-              d="M 23 52 Q 28 50 28 58 Q 23 58 23 52 Z"
-              fill="#ffffff"
-              stroke="#06070a"
-              strokeWidth="1"
-            />
-            <path
-              d="M 37 52 Q 32 50 32 58 Q 37 58 37 52 Z"
-              fill="#ffffff"
-              stroke="#06070a"
-              strokeWidth="1"
-            />
+              {/* Iconic Angled White Spider Eyes */}
+              <path
+                d="M 23 52 Q 28 50 28 58 Q 23 58 23 52 Z"
+                fill="#ffffff"
+                stroke="#06070a"
+                strokeWidth="1"
+              />
+              <path
+                d="M 37 52 Q 32 50 32 58 Q 37 58 37 52 Z"
+                fill="#ffffff"
+                stroke="#06070a"
+                strokeWidth="1"
+              />
 
-            {/* Upside Down Spider Arms Crossed */}
-            <path d="M 22 28 C 15 35 18 45 27 42" stroke="#e61a22" strokeWidth="3" strokeLinecap="round" />
-            <path d="M 38 28 C 45 35 42 45 33 42" stroke="#e61a22" strokeWidth="3" strokeLinecap="round" />
-          </svg>
+              {/* Upside Down Spider Arms Crossed */}
+              <path d="M 22 28 C 15 35 18 45 27 42" stroke="#e61a22" strokeWidth="3" strokeLinecap="round" />
+              <path d="M 38 28 C 45 35 42 45 33 42" stroke="#e61a22" strokeWidth="3" strokeLinecap="round" />
+            </svg>
 
-          {/* Floating Tag */}
-          <span className="hanging-spidey-label">SPIDEY TRACKER</span>
+            {/* Floating Tag */}
+            <span className="hanging-spidey-label">SPIDEY CONTACT</span>
+          </div>
         </div>
       </div>
 
       {/* -------------------------------------------------------------
-          2. RETRO-FUTURISTIC CYBER-SPIDEY HUD TERMINAL MODAL (Image 3)
+          2. SPIDER-COMMS QUICK CONTACT HUD MODAL
           ------------------------------------------------------------- */}
       {isOpen && (
         <div className="cyber-hud-overlay" onClick={() => setIsOpen(false)}>
@@ -103,60 +131,113 @@ export default function SpideyTrackerHUD() {
             <div className="hud-header">
               <div className="hud-title-wrap">
                 <Radio size={16} className="hud-pulse-icon" />
-                <span className="hud-title">SPIDEY TRACKER // OS v4.2.0</span>
+                <span className="hud-title">SPIDER-COMMS // CONTACT TERMINAL</span>
               </div>
               <button
                 className="hud-close-btn"
                 onClick={() => setIsOpen(false)}
-                aria-label="Close HUD"
+                aria-label="Close Contact HUD"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {/* Telemetry Grid */}
+            {/* Direct Contact Comms */}
             <div className="hud-telemetry-body">
               <div className="hud-log-section">
-                <p className="hud-log-line text-cyan">&gt; INITIALIZING SPIDEY TRACKER v4.2.0...</p>
-                <p className="hud-log-line">&gt; BOOTING CORE SERVICES [OK]</p>
-                <p className="hud-log-line">&gt; LOADING DEVELOPER PROFILE: <span className="text-red font-bold">{personal.name}</span></p>
-                <p className="hud-log-line">&gt; EDUCATION PIPELINE: <span className="text-cyan">Kongu Engineering College (CGPA: 7.39)</span></p>
-                <p className="hud-log-line">&gt; SYSTEM STATUS: <span className="text-green">[100% OPERATIONAL]</span></p>
-                <p className="hud-log-line">&gt; TECH CORE: Java SE 17 • Python • React Native • Node.js • MongoDB</p>
-                <p className="hud-log-line">&gt; WEB-SHOOTER PROTOCOL: CALIBRATED (Click anywhere to sling webs)</p>
-                <p className="hud-log-line text-cyan">&gt; CAREER DIRECTIVE: Available for Software Engineering Roles</p>
+                <p className="hud-log-line text-cyan">&gt; SPIDER-BEACON ESTABLISHED: CONNECT WITH SIVA</p>
+                <p className="hud-log-line">&gt; TRANSMITTING DIRECT CHANNELS FOR FULL-STACK INQUIRIES...</p>
               </div>
 
-              {/* High-Tech Diagnostic Cards */}
+              {/* Quick Communication Grid */}
               <div className="hud-stats-grid">
-                <div className="hud-stat-box">
-                  <span className="hud-stat-title">ROLE</span>
-                  <span className="hud-stat-val text-red">{personal.role}</span>
+                <div className="hud-stat-box cursor-pointer" onClick={handleCopyEmail} title="Click to copy email">
+                  <div className="flex items-center justify-between">
+                    <span className="hud-stat-title">DIRECT EMAIL</span>
+                    {copied ? <Check size={14} className="text-green" /> : <Copy size={14} className="text-cyan" />}
+                  </div>
+                  <span className="hud-stat-val text-red" style={{ fontSize: '0.8rem', wordBreak: 'break-all' }}>
+                    {personal.email}
+                  </span>
+                  <span style={{ fontSize: '0.65rem', color: copied ? '#10b981' : '#94a3b8' }}>
+                    {copied ? '✓ COPIED TO CLIPBOARD' : 'Click to copy address'}
+                  </span>
                 </div>
-                <div className="hud-stat-box">
-                  <span className="hud-stat-title">LOCATION</span>
-                  <span className="hud-stat-val text-cyan">Tiruppur, India</span>
-                </div>
-                <div className="hud-stat-box">
-                  <span className="hud-stat-title">PROJECTS</span>
-                  <span className="hud-stat-val">3 Featured</span>
-                </div>
-                <div className="hud-stat-box">
-                  <span className="hud-stat-title">CERTIFICATION</span>
-                  <span className="hud-stat-val text-yellow">Oracle Java 17</span>
-                </div>
+
+                <a href={`mailto:${personal.email}`} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                  <span className="hud-stat-title">COMMS LINK</span>
+                  <span className="hud-stat-val text-cyan">Launch Mailer</span>
+                  <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Open mail client ↗</span>
+                </a>
+
+                <a href={social.linkedin} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                  <span className="hud-stat-title">LINKEDIN</span>
+                  <span className="hud-stat-val text-yellow">/in/sivzz</span>
+                  <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Connect on LinkedIn ↗</span>
+                </a>
+
+                <a href={social.github} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                  <span className="hud-stat-title">GITHUB</span>
+                  <span className="hud-stat-val">/sivzz</span>
+                  <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Inspect Repositories ↗</span>
+                </a>
+              </div>
+
+              {/* Quick Transmission Form */}
+              <div className="hud-quick-signal-box">
+                <p className="hud-log-line text-cyan" style={{ marginBottom: '0.75rem' }}>
+                  &gt; QUICK SPIDER-SIGNAL TRANSMISSION:
+                </p>
+                {sent ? (
+                  <div className="quick-signal-success">
+                    <Check size={20} className="text-green" />
+                    <span>SIGNAL TRANSMITTED! Siva will respond promptly via your web channel.</span>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSendQuickSignal} className="quick-signal-form">
+                    <div className="quick-signal-inputs">
+                      <input
+                        type="text"
+                        placeholder="Your Name / Organization"
+                        className="quick-input"
+                        value={quickName}
+                        onChange={(e) => setQuickName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        placeholder="Quick Message / Opportunity..."
+                        className="quick-input msg-input"
+                        value={quickMsg}
+                        onChange={(e) => setQuickMsg(e.target.value)}
+                        required
+                      />
+                      <button type="submit" className="btn-spider-primary quick-submit-btn">
+                        <Send size={14} />
+                        <span>SEND SIGNAL</span>
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
 
             {/* HUD Footer Actions */}
             <div className="hud-footer">
-              <span className="hud-status-blink">● LIVE TELEMETRY ACTIVE</span>
               <button
-                className="btn-spider-primary"
-                style={{ padding: '0.5rem 1.2rem', fontSize: '0.8rem' }}
+                className="hud-sling-btn"
+                onClick={handleScrollToContact}
+              >
+                <ArrowDown size={15} />
+                <span>SLING DOWN TO FULL CONTACT SECTION</span>
+              </button>
+
+              <button
+                className="btn-spider-secondary"
+                style={{ padding: '0.45rem 1rem', fontSize: '0.75rem' }}
                 onClick={() => setIsOpen(false)}
               >
-                RETURN TO VIEWPORT
+                CLOSE
               </button>
             </div>
           </div>

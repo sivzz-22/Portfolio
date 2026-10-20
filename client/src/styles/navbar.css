@@ -206,3 +206,109 @@
     display: flex;
   }
 }
+
+/* ===================================================================
+   SCROLL-LINKED AVATAR DOCKED IN NAVBAR BRAND
+   =================================================================== */
+.nav-avatar-slot {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--spider-red-glow);
+  box-shadow: 0 0 14px rgba(230, 36, 41, 0.65), 0 0 20px rgba(18, 102, 241, 0.4);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  animation: navAvatarPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes navAvatarPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(230, 36, 41, 0.6), 0 0 15px rgba(18, 102, 241, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 18px rgba(230, 36, 41, 0.8), 0 0 25px rgba(0, 210, 255, 0.5);
+  }
+}
+
+.nav-avatar-slot:hover {
+  transform: scale(1.1);
+  border-color: var(--spider-blue-glow);
+}
+
+.nav-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.nav-avatar-ring-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 6px rgba(0, 210, 255, 0.5);
+  pointer-events: none;
+}
+
+/* ===================================================================
+   SPIDER-VERSE THEME TOGGLE BUTTON (Square Icon Button Like GitHub/LinkedIn)
+   =================================================================== */
+.nav-spider-btn {
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-spider-btn.active {
+  background: rgba(230, 36, 41, 0.18);
+  border-color: var(--spider-red-glow);
+  color: var(--spider-red);
+  box-shadow: 0 0 14px rgba(230, 36, 41, 0.4);
+}
+
+.nav-spider-btn.active:hover {
+  background: rgba(230, 36, 41, 0.28);
+  border-color: #ff525a;
+  box-shadow: 0 0 20px rgba(230, 36, 41, 0.7);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.nav-spider-btn.active::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff3b44;
+  box-shadow: 0 0 6px #ff3b44;
+  animation: spiderPipPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes spiderPipPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+.nav-spider-btn:not(.active):hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-spider-btn:active {
+  transform: scale(0.92);
+}
+

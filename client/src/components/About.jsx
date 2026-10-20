@@ -24,7 +24,7 @@ export default function About() {
 
         <div className="about-grid">
           {/* Left Narrative */}
-          <div className="about-narrative">
+          <div className="about-narrative reveal-slide-left">
             <h3 className="about-headline">
               {about.headline}
             </h3>
@@ -47,7 +47,7 @@ export default function About() {
           </div>
 
           {/* Right Holographic Details Card */}
-          <div className="about-card-wrapper">
+          <div className="about-card-wrapper reveal-slide-right">
             <div className="about-holo-card">
               {/* Corner Spider Web SVG Graphic */}
               <svg className="about-card-corner-web" viewBox="0 0 100 100" fill="none">

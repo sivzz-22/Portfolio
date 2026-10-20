@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useSpiderTheme } from '../context/SpiderThemeContext';
 
 export default function SpiderCrawlers() {
-  const [enabled, setEnabled] = useState(true);
+  const { isSpiderMode } = useSpiderTheme();
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!isSpiderMode) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -175,32 +176,24 @@ export default function SpiderCrawlers() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
     };
-  }, [enabled]);
+  }, [isSpiderMode]);
+
+  if (!isSpiderMode) return null;
 
   return (
     <div className="spider-crawlers-layer">
-      {enabled && (
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            pointerEvents: 'none',
-            zIndex: 9998,
-          }}
-        />
-      )}
-      {/* Spider Crawler Toggle Button */}
-      <button
-        className={`crawler-toggle-btn ${enabled ? 'active' : ''}`}
-        onClick={() => setEnabled(!enabled)}
-        title="Toggle screen-crawling spiders"
-      >
-        <span>🕷️ {enabled ? 'CRAWLERS: ON' : 'CRAWLERS: OFF'}</span>
-      </button>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          pointerEvents: 'none',
+          zIndex: 9998,
+        }}
+      />
     </div>
   );
 }

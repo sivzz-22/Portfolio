@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSpiderTheme } from '../context/SpiderThemeContext';
 import '../styles/cursor.css';
 
 export default function CustomCursor() {
+  const { isSpiderMode } = useSpiderTheme();
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -55,7 +57,7 @@ export default function CustomCursor() {
     };
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (!isSpiderMode || !isVisible) return null;
 
   return (
     <>

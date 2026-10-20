@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from './Icons';
+import { GithubIcon, LinkedinIcon, SpiderIcon } from './Icons';
 import SpiderLogo from './SpiderLogo';
+import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
 import '../styles/navbar.css';
 
@@ -9,6 +10,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const { isSpiderMode, toggleSpiderMode } = useSpiderTheme();
 
   const { personal, social } = portfolioData;
 
@@ -21,7 +23,7 @@ export default function Navbar() {
       }
 
       // Track active section
-      const sections = ['home', 'about', 'skills', 'projects', 'education', 'achievements', 'contact'];
+      const sections = ['home', 'about', 'education', 'skills', 'projects', 'achievements', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const sectionId of sections) {
@@ -44,9 +46,9 @@ export default function Navbar() {
   const navItems = [
     { id: 'home', label: 'HOME' },
     { id: 'about', label: 'ABOUT' },
+    { id: 'education', label: 'EDUCATION' },
     { id: 'skills', label: 'SKILLS' },
     { id: 'projects', label: 'PROJECTS' },
-    { id: 'education', label: 'EDUCATION' },
     { id: 'achievements', label: 'ACHIEVEMENTS' },
     { id: 'contact', label: 'CONTACT' },
   ];
@@ -62,13 +64,28 @@ export default function Navbar() {
   return (
     <header className={`navbar-wrapper ${scrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-inner">
-        {/* Brand Logo */}
-        <a href="#home" className="nav-logo" onClick={() => handleNavClick('home')}>
-          <div className="nav-logo-spider">
-            <SpiderLogo size={28} glow={true} animate={true} />
-          </div>
+        {/* Brand Logo with Scroll-Linked Avatar Transition */}
+        <a
+          href="#home"
+          className={`nav-logo ${scrolled ? 'nav-logo-avatar-mode' : ''}`}
+          onClick={(e) => {
+            e.preventDefault();
+            handleNavClick('home');
+          }}
+          title="Siva M // Back to Top"
+        >
+          {scrolled ? (
+            <div className="nav-avatar-slot">
+              <img src="/profile.jpg" alt="Siva" className="nav-avatar-img" />
+              <div className="nav-avatar-ring-glow" />
+            </div>
+          ) : (
+            <div className="nav-logo-spider">
+              <SpiderLogo size={28} glow={isSpiderMode} animate={isSpiderMode} />
+            </div>
+          )}
           <div className="nav-logo-text">
-            {personal.shortName.toUpperCase()}<span>.DEV</span>
+            {personal.shortName.toUpperCase()}
           </div>
         </a>
 
@@ -92,8 +109,19 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        {/* Social Actions */}
+        {/* Social Actions + Spider-Verse Mode Toggle */}
         <div className="nav-actions">
+          {/* Spider-Verse Master Theme Toggle Button (Square Icon Button Before GitHub) */}
+          <button
+            type="button"
+            className={`nav-social-btn nav-spider-btn ${isSpiderMode ? 'active' : ''}`}
+            onClick={toggleSpiderMode}
+            title={isSpiderMode ? "Spider-Verse Theme: ON (Click for Normal Mode)" : "Spider-Verse Theme: OFF (Click for Spider-Man Mode)"}
+            aria-label="Toggle Spider-Verse Theme"
+          >
+            <SpiderIcon size={20} active={isSpiderMode} />
+          </button>
+
           <a
             href={social.github}
             target="_blank"
@@ -141,7 +169,18 @@ export default function Navbar() {
             {item.label}
           </a>
         ))}
+
+        {/* Mobile Socials + Spider Toggle */}
         <div className="mobile-socials">
+          <button
+            type="button"
+            className={`nav-social-btn nav-spider-btn ${isSpiderMode ? 'active' : ''}`}
+            onClick={toggleSpiderMode}
+            title={isSpiderMode ? "Spider-Verse Theme: ON (Click for Normal Mode)" : "Spider-Verse Theme: OFF (Click for Spider-Man Mode)"}
+            aria-label="Toggle Spider-Verse Theme"
+          >
+            <SpiderIcon size={20} active={isSpiderMode} />
+          </button>
           <a
             href={social.github}
             target="_blank"

@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { useSpiderTheme } from '../context/SpiderThemeContext';
 
 export default function SpiderWebBackground() {
+  const { isSpiderMode } = useSpiderTheme();
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    if (!isSpiderMode) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -141,7 +144,9 @@ export default function SpiderWebBackground() {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isSpiderMode]);
+
+  if (!isSpiderMode) return null;
 
   return (
     <canvas

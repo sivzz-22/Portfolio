@@ -13,8 +13,8 @@ export const portfolioData = {
   // -----------------------------------------------------------------
   personal: {
     name: "SIVA SARAVANA KUMAR M",
-    shortName: "Siva",
-    logoText: "SIVA.DEV",
+    shortName: "sivzz",
+    logoText: "s",
     role: "Software Developer",
     degreeTag: "B.Tech IT | Kongu Engineering College",
     tagline: "Software Developer & IT Engineer",
@@ -32,7 +32,7 @@ export const portfolioData = {
   // -----------------------------------------------------------------
   social: {
     github: "https://github.com/sivzz-22",
-    linkedin: "https://www.linkedin.com/in/siva-saravana-kumar-m-b684b8377/",
+    linkedin: "https://www.linkedin.com/in/siva-saravana-kumar-m",
     email: "mailto:sivasaravanakumarm@gmail.com",
   },
 

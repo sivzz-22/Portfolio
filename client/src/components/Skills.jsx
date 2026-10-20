@@ -58,7 +58,8 @@ export default function Skills() {
       {items.map((skill, idx) => (
         <div
           key={idx}
-          className="skill-card"
+          className="skill-card reveal-slide-up"
+          style={{ transitionDelay: `${(idx % 8) * 0.05}s` }}
           onMouseMove={handleMouseMove}
         >
           <div className="skill-icon-wrap">
@@ -94,7 +95,7 @@ export default function Skills() {
         </div>
 
         {/* Category Navigation Tabs */}
-        <div className="skills-category-tabs">
+        <div className="skills-category-tabs reveal-slide-up">
           {categories.map((cat) => (
             <button
               key={cat.id}
@@ -109,7 +110,7 @@ export default function Skills() {
         {/* Dynamic Categorized Skills Grid */}
         {activeTab === 'all' ? (
           <div>
-            <div className="skills-category-group">
+            <div className="skills-category-group reveal-slide-up">
               <div className="category-group-header">
                 <Terminal size={18} color="var(--spider-red-glow)" />
                 <h3 className="category-group-title">Programming Languages</h3>
@@ -118,7 +119,7 @@ export default function Skills() {
               {renderSkillCards(skills.programming)}
             </div>
 
-            <div className="skills-category-group">
+            <div className="skills-category-group reveal-slide-up">
               <div className="category-group-header">
                 <Layout size={18} color="var(--spider-blue-glow)" />
                 <h3 className="category-group-title">Frontend & Mobile</h3>
@@ -127,7 +128,7 @@ export default function Skills() {
               {renderSkillCards(skills.frontend)}
             </div>
 
-            <div className="skills-category-group">
+            <div className="skills-category-group reveal-slide-up">
               <div className="category-group-header">
                 <Server size={18} color="var(--spider-red-glow)" />
                 <h3 className="category-group-title">Backend & APIs</h3>
@@ -136,7 +137,7 @@ export default function Skills() {
               {renderSkillCards(skills.backend)}
             </div>
 
-            <div className="skills-category-group">
+            <div className="skills-category-group reveal-slide-up">
               <div className="category-group-header">
                 <Database size={18} color="var(--spider-blue-glow)" />
                 <h3 className="category-group-title">Databases</h3>
@@ -145,7 +146,7 @@ export default function Skills() {
               {renderSkillCards(skills.database)}
             </div>
 
-            <div className="skills-category-group">
+            <div className="skills-category-group reveal-slide-up">
               <div className="category-group-header">
                 <Wrench size={18} color="var(--spider-blue-glow)" />
                 <h3 className="category-group-title">Tools & Frameworks</h3>
@@ -155,13 +156,13 @@ export default function Skills() {
             </div>
           </div>
         ) : (
-          <div className="skills-category-group">
+          <div className="skills-category-group reveal-slide-up">
             {renderSkillCards(skills[activeTab] || [])}
           </div>
         )}
 
         {/* Soft Skills & Professional Attributes */}
-        <div style={{ marginTop: '3.5rem' }}>
+        <div className="reveal-slide-up" style={{ marginTop: '3.5rem' }}>
           <div className="category-group-header">
             <Sparkles size={18} color="var(--spider-red-glow)" />
             <h3 className="category-group-title">Professional Attributes & Soft Skills</h3>

@@ -100,7 +100,7 @@ export default function Contact() {
 
         <div className="contact-grid">
           {/* Left Contact Methods Panel */}
-          <div className="contact-info-panel">
+          <div className="contact-info-panel reveal-slide-left">
             <p className="contact-info-desc">
               {contact.note}
             </p>
@@ -166,7 +166,7 @@ export default function Contact() {
           </div>
 
           {/* Right Contact Form Card */}
-          <div className="contact-form-card">
+          <div className="contact-form-card reveal-slide-right">
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label" htmlFor="contact-name">Your Name</label>

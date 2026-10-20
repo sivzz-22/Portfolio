@@ -82,8 +82,15 @@ export default function Projects() {
 
         {/* Projects Grid */}
         <div className="projects-grid">
-          {projects.map((project) => (
-            <article key={project.id} className="project-card">
+          {projects.map((project, idx) => {
+            const slideClasses = ['reveal-slide-left', 'reveal-slide-up', 'reveal-slide-right'];
+            const slideClass = slideClasses[idx % 3];
+            return (
+              <article
+                key={project.id}
+                className={`project-card ${slideClass}`}
+                style={{ transitionDelay: `${idx * 0.14}s` }}
+              >
               {/* Top Generative Visual Canvas */}
               <div className="project-visual-wrapper">
                 <div className="project-visual-grid" />
@@ -127,7 +134,8 @@ export default function Projects() {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
