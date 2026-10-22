@@ -7,7 +7,7 @@
 :root {
   /* Core Backgrounds */
   --bg-primary: #06070a;
-  --bg-secondary: #0b0d13;
+  --bg-secondary: #06070a;
   --bg-card: rgba(14, 18, 26, 0.7);
   --bg-card-hover: rgba(20, 26, 38, 0.85);
   --bg-glass: rgba(10, 13, 20, 0.65);

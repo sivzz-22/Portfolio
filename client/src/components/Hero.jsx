@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Download } from 'lucide-react';
+import { ArrowRight, Download, Mail, Phone, MapPin } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from './Icons';
 import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
 import '../styles/hero.css';
 
 export default function Hero() {
-  const { personal } = portfolioData;
+  const { personal, social } = portfolioData;
   const { isSpiderMode } = useSpiderTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -26,117 +27,82 @@ export default function Hero() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleScrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="home" className="hero-section">
-      {/* Background Spider-Man Atmospheric Vignette */}
-      <div className={`hero-atmosphere-glow ${!isSpiderMode ? 'clean-glow' : ''}`} />
+      {/* Seamless Ambient Vignette (No blue/black split) */}
+      <div className="hero-atmosphere-glow" />
 
       <div className="container">
         <div className="hero-grid">
-          {/* LEFT COLUMN: Hero Portrait Photo with Morphing Circle Scroll */}
+          {/* LEFT COLUMN: Clean Blended Hero Portrait (Matching Reference Image 2) */}
           <div className="hero-photo-column">
             <div
-              className={`hero-photo-wrapper ${scrollProgress > 0.7 ? 'morphed-circle' : ''}`}
+              className="hero-photo-blend-wrapper"
               style={{
-                transform: `translateY(-${scrollProgress * 75}px)`,
+                transform: `translateY(-${scrollProgress * 55}px)`,
               }}
             >
-              {/* Spider-Sense Pulse Waves (only in Spider-Man Mode) */}
-              {isSpiderMode && (
-                <div
-                  className="spider-sense-waves"
-                  style={{ opacity: 1 - scrollProgress * 1.2 }}
-                >
-                  <span className="sense-wave wave-1" />
-                  <span className="sense-wave wave-2" />
-                  <span className="sense-wave wave-3" />
-                </div>
-              )}
+              {/* Bold Crimson Red Circle Backdrop (Image 2 style) */}
+              <div className="hero-backdrop-circle hero-backdrop-circle-main" />
+              <div className="hero-backdrop-circle hero-backdrop-circle-accent" />
 
-              {/* Pulsing Red / Blue Spider Energy Backlight */}
-              <div
-                className={`hero-photo-backlight ${!isSpiderMode ? 'clean-backlight' : ''}`}
-                style={{
-                  borderRadius: scrollProgress > 0.4 ? '50%' : '36px',
-                }}
-              />
+              {/* Ambient Red Glow */}
+              <div className="hero-circle-ambient-glow" />
 
-              <div
-                className="hero-photo-frame"
-                style={{
-                  borderRadius: `${26 + (50 - 26) * scrollProgress}%`,
-                  width: `calc(360px - (360px - 140px) * ${scrollProgress})`,
-                  height: `calc(460px - (460px - 140px) * ${scrollProgress})`,
-                }}
-              >
-                {/* Tech Corner Brackets */}
-                {isSpiderMode && (
-                  <>
-                    <span className="photo-bracket top-left" style={{ opacity: Math.max(0, 1 - scrollProgress * 1.8) }} />
-                    <span className="photo-bracket top-right" style={{ opacity: Math.max(0, 1 - scrollProgress * 1.8) }} />
-                    <span className="photo-bracket bottom-left" style={{ opacity: Math.max(0, 1 - scrollProgress * 1.8) }} />
-                    <span className="photo-bracket bottom-right" style={{ opacity: Math.max(0, 1 - scrollProgress * 1.8) }} />
-                  </>
-                )}
-
-                {/* Animated Spider-Verse Character Portrait */}
+              {/* Organic Portrait Stage with transparent bottom fade */}
+              <div className="hero-portrait-stage">
                 <img
-                  src="/profile.jpg"
+                  src="/profile-cutout.png"
+                  onError={(e) => {
+                    // Graceful fallback to original photo if cutout missing
+                    e.currentTarget.src = '/profile.jpg';
+                  }}
                   alt={personal.name}
-                  className="hero-photo-img"
+                  className="hero-blended-img"
                   loading="eager"
                 />
-
-                {/* Spider-Man High-Tech HUD Reticle Overlay (Laser lines removed as requested) */}
-                {isSpiderMode && (
-                  <div
-                    className="spider-hud-reticle"
-                    style={{ opacity: Math.max(0, 1 - scrollProgress * 1.5) }}
-                  >
-                    <svg viewBox="0 0 100 100" className="reticle-svg">
-                      <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(230, 36, 41, 0.45)" strokeWidth="1" strokeDasharray="5 7" />
-                      <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(0, 210, 255, 0.4)" strokeWidth="1" strokeDasharray="3 5" />
-                      <circle cx="50" cy="50" r="22" fill="none" stroke="rgba(255, 255, 255, 0.25)" strokeWidth="0.8" strokeDasharray="2 4" />
-                    </svg>
-                  </div>
-                )}
-
-                {/* Spider Emblem Watermark Accent */}
-                {isSpiderMode && (
-                  <div
-                    className="photo-spider-watermark"
-                    style={{ opacity: Math.max(0, 1 - scrollProgress * 1.8) }}
-                  >
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="#e62429">
-                      <circle cx="12" cy="11" r="3" fill="#e62429" />
-                      <ellipse cx="12" cy="15" rx="3.5" ry="4" fill="#e62429" />
-                      <path d="M12 2 L12 8 M7 6 L10 10 M17 6 L14 10 M5 12 L9 12 M19 12 L15 12 M6 18 L10 15 M18 18 L14 15" stroke="#e62429" strokeWidth="1.2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                )}
-
-                {/* Futuristic HUD Badge */}
-                <div
-                  className="photo-hud-badge"
-                  style={{ opacity: Math.max(0, 1 - scrollProgress * 2) }}
-                >
-                  <span className="photo-hud-dot" />
-                  <span>{isSpiderMode ? 'SIVA // SPIDER-VERSE DEV' : 'SIVA // SOFTWARE ENGINEER'}</span>
-                </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Hero Narrative */}
-          <div className="hero-content">
-            <p className="hero-greeting">HELLO, I'M</p>
+          {/* RIGHT COLUMN: Hero Narrative with Kinetic Scroll Parallax Animations */}
+          <div
+            className="hero-content"
+            style={{
+              transform: `translateY(-${scrollProgress * 40}px)`,
+            }}
+          >
+            <p
+              className="hero-greeting hero-anim-item"
+              style={{
+                transform: `translateX(-${scrollProgress * 15}px)`,
+                opacity: Math.max(0.4, 1 - scrollProgress * 0.7),
+              }}
+            >
+              HELLO, I'M
+            </p>
 
-            <h1 className="hero-name">
+            <h1
+              className="hero-name hero-anim-item"
+              style={{
+                transform: `translateY(-${scrollProgress * 22}px)`,
+              }}
+            >
               {personal.name}
             </h1>
 
-            {/* Miles Morales Inspired Dynamic Role Tag */}
-            <div className="hero-role-wrapper">
+            {/* Role & Degree Dynamic Highlights */}
+            <div
+              className="hero-role-wrapper hero-anim-item"
+              style={{
+                transform: `translateY(-${scrollProgress * 18}px)`,
+              }}
+            >
               <div className="hero-role">
                 <span className="hero-role-main">{personal.role}</span>
                 <span className="hero-role-dot">•</span>
@@ -147,11 +113,82 @@ export default function Hero() {
               </div>
             </div>
 
-            <p className="hero-description">
+            <p
+              className="hero-description hero-anim-item"
+              style={{
+                transform: `translateY(-${scrollProgress * 14}px)`,
+              }}
+            >
               {personal.description}
             </p>
 
-            <div className="hero-actions">
+            {/* "Find Me on" Quick Contact Details (Matching Reference Image 2) */}
+            <div
+              className="hero-find-me hero-anim-item"
+              style={{
+                transform: `translateY(-${scrollProgress * 10}px)`,
+              }}
+            >
+              <span className="find-me-label">Find Me on</span>
+              <div className="find-me-icons">
+                <a
+                  href={social.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="find-me-btn"
+                  title="GitHub"
+                  aria-label="GitHub Profile"
+                >
+                  <GithubIcon size={16} />
+                </a>
+                <a
+                  href={social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="find-me-btn"
+                  title="LinkedIn"
+                  aria-label="LinkedIn Profile"
+                >
+                  <LinkedinIcon size={16} />
+                </a>
+                <a
+                  href={`mailto:${personal.email}`}
+                  className="find-me-btn"
+                  title="Direct Email"
+                  aria-label="Email Siva"
+                >
+                  <Mail size={16} />
+                </a>
+                <a
+                  href={`tel:${personal.phone.replace(/\s+/g, '')}`}
+                  className="find-me-btn"
+                  title="Phone / WhatsApp"
+                  aria-label="Call or WhatsApp"
+                >
+                  <Phone size={16} />
+                </a>
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleScrollToContact();
+                  }}
+                  className="find-me-btn"
+                  title={`Location: ${personal.location}`}
+                  aria-label="Location & Contact"
+                >
+                  <MapPin size={16} />
+                </a>
+              </div>
+            </div>
+
+            {/* Call to Action Buttons */}
+            <div
+              className="hero-actions hero-anim-item"
+              style={{
+                transform: `translateY(-${scrollProgress * 8}px)`,
+              }}
+            >
               <button
                 className="btn-spider-primary"
                 onClick={handleScrollToProjects}
@@ -175,7 +212,12 @@ export default function Hero() {
             </div>
 
             {/* Quick Resume Badges */}
-            <div className="hero-highlights">
+            <div
+              className="hero-highlights hero-anim-item"
+              style={{
+                transform: `translateY(-${scrollProgress * 5}px)`,
+              }}
+            >
               <div className="highlight-item">
                 <span className="highlight-label">Institution</span>
                 <span className="highlight-value">Kongu Engineering College</span>
