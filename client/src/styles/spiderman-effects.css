@@ -145,18 +145,19 @@
 }
 
 /* -------------------------------------------------------------
-   3. HANGING UPSIDE-DOWN SPIDER-MAN MASCOT (Image 3 Concept)
+   3. HANGING UPSIDE-DOWN SPIDER-MAN MASCOT (Directly below SIVZZ in Navbar)
    ------------------------------------------------------------- */
 .hanging-spidey-anchor {
-  position: fixed;
-  top: 68px;
-  right: clamp(16px, 2.5vw, 36px);
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 58px;
   z-index: 998;
   cursor: pointer;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  user-select: none;
 }
 
-/* When at top of page: Spidey is OUT and fully visible! */
+/* When at top of page: Spidey is OUT and hanging directly below SIVZZ! */
 .hanging-spidey-anchor.out-at-top {
   transform: translateY(0);
   opacity: 1;
@@ -204,11 +205,11 @@
   100% { transform: rotate(0deg); }
 }
 
-/* Fixed web thread: never increases, clean 55px */
+/* Elastic web thread: clean 44px drop from SIVZZ */
 .hanging-web-thread {
   width: 1.5px;
-  height: 55px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), #ffffff);
+  height: 44px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #ffffff);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 14px rgba(0, 210, 255, 0.6);
   margin: 0 auto;
 }
@@ -222,23 +223,23 @@
 
 .hanging-spidey-label {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
   color: #ffffff;
-  background: rgba(6, 7, 10, 0.85);
+  background: rgba(6, 7, 10, 0.9);
   border: 1px solid var(--spider-blue-glow);
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
   margin-top: -4px;
   white-space: nowrap;
   letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 @media (max-width: 900px) {
   .hanging-spidey-anchor {
-    top: 62px;
-    right: 18px;
-    scale: 0.82;
+    left: 52px;
+    scale: 0.88;
   }
 }
 

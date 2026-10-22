@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Mail, MessageSquare, Send, Check, X, Radio, ArrowDown, ExternalLink, Copy } from 'lucide-react';
 import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
@@ -22,7 +23,9 @@ export default function SpideyTrackerHUD() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleMascotClick = () => {
+  const handleMascotClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     setSwung(true);
     setIsOpen(true);
     setTimeout(() => setSwung(false), 800);
@@ -52,16 +55,16 @@ export default function SpideyTrackerHUD() {
     }, 3000);
   };
 
-  // When at top of page (scrollY < 60), Spidey is OUT and fully visible!
-  // When scrolling down, Spidey retracts up into ceiling so he doesn't block content.
-  const isAtTop = scrollY < 60;
+  // When at top of page (scrollY < 40), Spidey is OUT and hanging directly below SIVZZ!
+  // When scrolling down, Spidey retracts up into ceiling behind SIVZZ so he doesn't block content.
+  const isAtTop = scrollY < 40;
 
   if (!isSpiderMode) return null;
 
   return (
     <>
       {/* -------------------------------------------------------------
-          1. HANGING UPSIDE-DOWN SPIDER-MAN MASCOT (Contact Terminal)
+          1. HANGING UPSIDE-DOWN SPIDER-MAN MASCOT (Directly below SIVZZ)
           ------------------------------------------------------------- */}
       <div
         id="spidey-contact-anchor"
@@ -70,12 +73,12 @@ export default function SpideyTrackerHUD() {
         title="Click Spidey for Quick Contact & Transmission!"
       >
         <div className={`hanging-spidey-pivot ${swung ? 'swing-active' : ''}`}>
-          {/* Fixed-length Elastic Web Thread */}
+          {/* Elastic Web Thread descending from bottom of SIVZZ */}
           <div className="hanging-web-thread" />
 
           {/* Hanging Upside-Down Spidey Silhouette */}
           <div className="hanging-spidey-body">
-            <svg viewBox="0 0 60 75" width="48" height="60" fill="none">
+            <svg viewBox="0 0 60 75" width="46" height="58" fill="none">
               {/* Hanging Web Loop around feet */}
               <path d="M 30 0 L 30 15 C 28 17 32 17 30 20" stroke="#ffffff" strokeWidth="1.5" />
 
@@ -119,130 +122,132 @@ export default function SpideyTrackerHUD() {
       </div>
 
       {/* -------------------------------------------------------------
-          2. SPIDER-COMMS QUICK CONTACT HUD MODAL
+          2. SPIDER-COMMS QUICK CONTACT HUD MODAL (Portaled to body)
           ------------------------------------------------------------- */}
-      {isOpen && (
-        <div className="cyber-hud-overlay" onClick={() => setIsOpen(false)}>
-          <div className="cyber-hud-window" onClick={(e) => e.stopPropagation()}>
-            {/* CRT Scanline Overlay */}
-            <div className="crt-scanlines" />
+      {isOpen &&
+        createPortal(
+          <div className="cyber-hud-overlay" onClick={() => setIsOpen(false)}>
+            <div className="cyber-hud-window" onClick={(e) => e.stopPropagation()}>
+              {/* CRT Scanline Overlay */}
+              <div className="crt-scanlines" />
 
-            {/* HUD Header */}
-            <div className="hud-header">
-              <div className="hud-title-wrap">
-                <Radio size={16} className="hud-pulse-icon" />
-                <span className="hud-title">SPIDER-COMMS // CONTACT TERMINAL</span>
-              </div>
-              <button
-                className="hud-close-btn"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close Contact HUD"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* Direct Contact Comms */}
-            <div className="hud-telemetry-body">
-              <div className="hud-log-section">
-                <p className="hud-log-line text-cyan">&gt; SPIDER-BEACON ESTABLISHED: CONNECT WITH SIVA</p>
-                <p className="hud-log-line">&gt; TRANSMITTING DIRECT CHANNELS FOR FULL-STACK INQUIRIES...</p>
+              {/* HUD Header */}
+              <div className="hud-header">
+                <div className="hud-title-wrap">
+                  <Radio size={16} className="hud-pulse-icon" />
+                  <span className="hud-title">SPIDER-COMMS // CONTACT TERMINAL</span>
+                </div>
+                <button
+                  className="hud-close-btn"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close Contact HUD"
+                >
+                  <X size={18} />
+                </button>
               </div>
 
-              {/* Quick Communication Grid */}
-              <div className="hud-stats-grid">
-                <div className="hud-stat-box cursor-pointer" onClick={handleCopyEmail} title="Click to copy email">
-                  <div className="flex items-center justify-between">
-                    <span className="hud-stat-title">DIRECT EMAIL</span>
-                    {copied ? <Check size={14} className="text-green" /> : <Copy size={14} className="text-cyan" />}
-                  </div>
-                  <span className="hud-stat-val text-red" style={{ fontSize: '0.8rem', wordBreak: 'break-all' }}>
-                    {personal.email}
-                  </span>
-                  <span style={{ fontSize: '0.65rem', color: copied ? '#10b981' : '#94a3b8' }}>
-                    {copied ? '✓ COPIED TO CLIPBOARD' : 'Click to copy address'}
-                  </span>
+              {/* Direct Contact Comms */}
+              <div className="hud-telemetry-body">
+                <div className="hud-log-section">
+                  <p className="hud-log-line text-cyan">&gt; SPIDER-BEACON ESTABLISHED: CONNECT WITH SIVA</p>
+                  <p className="hud-log-line">&gt; TRANSMITTING DIRECT CHANNELS FOR FULL-STACK INQUIRIES...</p>
                 </div>
 
-                <a href={`mailto:${personal.email}`} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
-                  <span className="hud-stat-title">COMMS LINK</span>
-                  <span className="hud-stat-val text-cyan">Launch Mailer</span>
-                  <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Open mail client ↗</span>
-                </a>
-
-                <a href={social.linkedin} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
-                  <span className="hud-stat-title">LINKEDIN</span>
-                  <span className="hud-stat-val text-yellow">/in/sivzz</span>
-                  <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Connect on LinkedIn ↗</span>
-                </a>
-
-                <a href={social.github} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
-                  <span className="hud-stat-title">GITHUB</span>
-                  <span className="hud-stat-val">/sivzz</span>
-                  <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Inspect Repositories ↗</span>
-                </a>
-              </div>
-
-              {/* Quick Transmission Form */}
-              <div className="hud-quick-signal-box">
-                <p className="hud-log-line text-cyan" style={{ marginBottom: '0.75rem' }}>
-                  &gt; QUICK SPIDER-SIGNAL TRANSMISSION:
-                </p>
-                {sent ? (
-                  <div className="quick-signal-success">
-                    <Check size={20} className="text-green" />
-                    <span>SIGNAL TRANSMITTED! Siva will respond promptly via your web channel.</span>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSendQuickSignal} className="quick-signal-form">
-                    <div className="quick-signal-inputs">
-                      <input
-                        type="text"
-                        placeholder="Your Name / Organization"
-                        className="quick-input"
-                        value={quickName}
-                        onChange={(e) => setQuickName(e.target.value)}
-                        required
-                      />
-                      <input
-                        type="text"
-                        placeholder="Quick Message / Opportunity..."
-                        className="quick-input msg-input"
-                        value={quickMsg}
-                        onChange={(e) => setQuickMsg(e.target.value)}
-                        required
-                      />
-                      <button type="submit" className="btn-spider-primary quick-submit-btn">
-                        <Send size={14} />
-                        <span>SEND SIGNAL</span>
-                      </button>
+                {/* Quick Communication Grid */}
+                <div className="hud-stats-grid">
+                  <div className="hud-stat-box cursor-pointer" onClick={handleCopyEmail} title="Click to copy email">
+                    <div className="flex items-center justify-between">
+                      <span className="hud-stat-title">DIRECT EMAIL</span>
+                      {copied ? <Check size={14} className="text-green" /> : <Copy size={14} className="text-cyan" />}
                     </div>
-                  </form>
-                )}
+                    <span className="hud-stat-val text-red" style={{ fontSize: '0.8rem', wordBreak: 'break-all' }}>
+                      {personal.email}
+                    </span>
+                    <span style={{ fontSize: '0.65rem', color: copied ? '#10b981' : '#94a3b8' }}>
+                      {copied ? '✓ COPIED TO CLIPBOARD' : 'Click to copy address'}
+                    </span>
+                  </div>
+
+                  <a href={`mailto:${personal.email}`} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                    <span className="hud-stat-title">COMMS LINK</span>
+                    <span className="hud-stat-val text-cyan">Launch Mailer</span>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Open mail client ↗</span>
+                  </a>
+
+                  <a href={social.linkedin} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                    <span className="hud-stat-title">LINKEDIN</span>
+                    <span className="hud-stat-val text-yellow">/in/sivzz</span>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Connect on LinkedIn ↗</span>
+                  </a>
+
+                  <a href={social.github} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                    <span className="hud-stat-title">GITHUB</span>
+                    <span className="hud-stat-val">/sivzz</span>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Inspect Repositories ↗</span>
+                  </a>
+                </div>
+
+                {/* Quick Transmission Form */}
+                <div className="hud-quick-signal-box">
+                  <p className="hud-log-line text-cyan" style={{ marginBottom: '0.75rem' }}>
+                    &gt; QUICK SPIDER-SIGNAL TRANSMISSION:
+                  </p>
+                  {sent ? (
+                    <div className="quick-signal-success">
+                      <Check size={20} className="text-green" />
+                      <span>SIGNAL TRANSMITTED! Siva will respond promptly via your web channel.</span>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSendQuickSignal} className="quick-signal-form">
+                      <div className="quick-signal-inputs">
+                        <input
+                          type="text"
+                          placeholder="Your Name / Organization"
+                          className="quick-input"
+                          value={quickName}
+                          onChange={(e) => setQuickName(e.target.value)}
+                          required
+                        />
+                        <input
+                          type="text"
+                          placeholder="Quick Message / Opportunity..."
+                          className="quick-input msg-input"
+                          value={quickMsg}
+                          onChange={(e) => setQuickMsg(e.target.value)}
+                          required
+                        />
+                        <button type="submit" className="btn-spider-primary quick-submit-btn">
+                          <Send size={14} />
+                          <span>SEND SIGNAL</span>
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              </div>
+
+              {/* HUD Footer Actions */}
+              <div className="hud-footer">
+                <button
+                  className="hud-sling-btn"
+                  onClick={handleScrollToContact}
+                >
+                  <ArrowDown size={15} />
+                  <span>SLING DOWN TO FULL CONTACT SECTION</span>
+                </button>
+
+                <button
+                  className="btn-spider-secondary"
+                  style={{ padding: '0.45rem 1rem', fontSize: '0.75rem' }}
+                  onClick={() => setIsOpen(false)}
+                >
+                  CLOSE
+                </button>
               </div>
             </div>
-
-            {/* HUD Footer Actions */}
-            <div className="hud-footer">
-              <button
-                className="hud-sling-btn"
-                onClick={handleScrollToContact}
-              >
-                <ArrowDown size={15} />
-                <span>SLING DOWN TO FULL CONTACT SECTION</span>
-              </button>
-
-              <button
-                className="btn-spider-secondary"
-                style={{ padding: '0.45rem 1rem', fontSize: '0.75rem' }}
-                onClick={() => setIsOpen(false)}
-              >
-                CLOSE
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }

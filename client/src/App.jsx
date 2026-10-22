@@ -3,7 +3,6 @@ import CustomCursor from './components/CustomCursor';
 import SpiderWebBackground from './components/SpiderWebBackground';
 import WebShooter from './components/WebShooter';
 import SpiderCrawlers from './components/SpiderCrawlers';
-import SpideyTrackerHUD from './components/SpideyTrackerHUD';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -32,9 +31,6 @@ export default function App() {
 
         {/* Animated Multi-Legged Spiders Running on Screen with Mouse Evasion */}
         <SpiderCrawlers />
-
-        {/* Hanging Upside-Down Spidey Mascot & Retro CRT Tracker HUD Modal */}
-        <SpideyTrackerHUD />
 
         {/* Ambient Spider Web Canvas Background */}
         <SpiderWebBackground />

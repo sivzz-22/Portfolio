@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Download, Mail, Phone, MapPin } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from './Icons';
+import { ArrowRight, Download, Sparkles } from 'lucide-react';
 import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
 import '../styles/hero.css';
 
 export default function Hero() {
-  const { personal, social } = portfolioData;
+  const { personal } = portfolioData;
   const { isSpiderMode } = useSpiderTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY;
-      // Interpolate progress smoothly from 0 to 1 between 0px and 220px scroll
-      const p = Math.min(Math.max(y / 220, 0), 1);
+      // Interpolate progress smoothly from 0 to 1 between 0px and 240px scroll
+      const p = Math.min(Math.max(y / 240, 0), 1);
       setScrollProgress(p);
     };
 
@@ -22,44 +22,112 @@ export default function Hero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Interactive 3D mouse parallax tracking
+  const handleMouseMove = (e) => {
+    const { clientX, clientY, currentTarget } = e;
+    const rect = currentTarget.getBoundingClientRect();
+    // Normalized coordinates from -1 to 1
+    const x = ((clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((clientY - rect.top) / rect.height - 0.5) * 2;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 0, y: 0 });
+  };
+
   const handleScrollToProjects = () => {
     const el = document.getElementById('projects');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleScrollToContact = () => {
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section id="home" className="hero-section">
-      {/* Seamless Ambient Vignette (No blue/black split) */}
+    <section
+      id="home"
+      className="hero-section"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Seamless Ambient Vignette (Uniform deep black, no blue split) */}
       <div className="hero-atmosphere-glow" />
 
       <div className="container">
         <div className="hero-grid">
-          {/* LEFT COLUMN: Clean Blended Hero Portrait (Matching Reference Image 2) */}
+          {/* LEFT COLUMN: Interactive 3D Portrait & Dual-Themed Adaptive Backdrop */}
           <div className="hero-photo-column">
             <div
               className="hero-photo-blend-wrapper"
               style={{
-                transform: `translateY(-${scrollProgress * 55}px)`,
+                transform: `translateY(-${scrollProgress * 50}px)`,
               }}
             >
-              {/* Bold Crimson Red Circle Backdrop (Image 2 style) */}
-              <div className="hero-backdrop-circle hero-backdrop-circle-main" />
-              <div className="hero-backdrop-circle hero-backdrop-circle-accent" />
+              {/* DYNAMIC ADAPTIVE BACKDROP:
+                  - Normal Mode: Obsidian Dark Tech Disc with Luminous Electric-Cyan Rim Glow & Orbital Compass
+                  - Spider-Verse Mode: Multiverse Neon Web Radar Halo with Concentric Crimson/Cyan Energy
+              */}
+              <div className={`hero-backdrop-system ${isSpiderMode ? 'theme-spider' : 'theme-normal'}`}>
+                {/* Ambient Depth Aura */}
+                <div className="backdrop-ambient-glow" />
 
-              {/* Ambient Red Glow */}
-              <div className="hero-circle-ambient-glow" />
+                {/* Primary Geometric Depth Disc with mouse parallax */}
+                <div
+                  className="backdrop-disc-main"
+                  style={{
+                    transform: `translate(calc(-50% + ${mousePos.x * -16}px), calc(-50% + ${mousePos.y * -14}px))`,
+                  }}
+                >
+                  <div className="backdrop-inner-grid" />
+                  <div className="backdrop-specular-sheen" />
+                </div>
 
-              {/* Organic Portrait Stage with transparent bottom fade */}
-              <div className="hero-portrait-stage">
+                {/* Rotating Orbital Compass / Web Radar Ring */}
+                <div
+                  className="backdrop-orbit-ring"
+                  style={{
+                    transform: `translate(-50%, -50%) rotate(${mousePos.x * 15}deg)`,
+                  }}
+                />
+
+                {/* Floating Secondary Accent Glass Sphere */}
+                <div
+                  className="backdrop-accent-sphere"
+                  style={{
+                    transform: `translate(${mousePos.x * 22}px, ${mousePos.y * 18}px)`,
+                  }}
+                />
+              </div>
+
+              {/* Interactive Floating Micro-Badges on Portrait */}
+              <div
+                className="hero-floating-chip chip-top-left"
+                style={{
+                  transform: `translate(${mousePos.x * -12}px, ${mousePos.y * -10}px)`,
+                }}
+              >
+                <span className="chip-icon">{isSpiderMode ? '🕷️' : '⚡'}</span>
+                <span className="chip-text">{isSpiderMode ? 'Earth-1610' : 'Clean Architecture'}</span>
+              </div>
+
+              <div
+                className="hero-floating-chip chip-bottom-right"
+                style={{
+                  transform: `translate(${mousePos.x * 14}px, ${mousePos.y * 12}px)`,
+                }}
+              >
+                <span className="chip-icon">{isSpiderMode ? '🕸️' : '🚀'}</span>
+                <span className="chip-text">{isSpiderMode ? 'Web-Slinger' : 'Full Stack Dev'}</span>
+              </div>
+
+              {/* 3D Organic Portrait Stage with mouse tilt & bottom fade */}
+              <div
+                className="hero-portrait-stage"
+                style={{
+                  transform: `perspective(1000px) rotateY(${mousePos.x * 8}deg) rotateX(${-mousePos.y * 6}deg)`,
+                }}
+              >
                 <img
                   src="/profile-cutout.png"
                   onError={(e) => {
-                    // Graceful fallback to original photo if cutout missing
                     e.currentTarget.src = '/profile.jpg';
                   }}
                   alt={personal.name}
@@ -70,37 +138,40 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Hero Narrative with Kinetic Scroll Parallax Animations */}
+          {/* RIGHT COLUMN: Clean, Refined Hero Narrative (Neat Typography, No Clutter) */}
           <div
             className="hero-content"
             style={{
-              transform: `translateY(-${scrollProgress * 40}px)`,
+              transform: `translateY(-${scrollProgress * 35}px)`,
             }}
           >
-            <p
-              className="hero-greeting hero-anim-item"
+            {/* Clean Greeting Badge */}
+            <div
+              className="hero-greeting-badge hero-anim-item"
               style={{
-                transform: `translateX(-${scrollProgress * 15}px)`,
+                transform: `translateX(-${scrollProgress * 14}px)`,
                 opacity: Math.max(0.4, 1 - scrollProgress * 0.7),
               }}
             >
-              HELLO, I'M
-            </p>
+              <span className="hero-greeting-dot" />
+              <span className="hero-greeting-text">HELLO, I'M</span>
+            </div>
 
+            {/* Neat Balanced Heading */}
             <h1
               className="hero-name hero-anim-item"
               style={{
-                transform: `translateY(-${scrollProgress * 22}px)`,
+                transform: `translateY(-${scrollProgress * 20}px)`,
               }}
             >
               {personal.name}
             </h1>
 
-            {/* Role & Degree Dynamic Highlights */}
+            {/* Role & Degree Line (No redundant red badge) */}
             <div
               className="hero-role-wrapper hero-anim-item"
               style={{
-                transform: `translateY(-${scrollProgress * 18}px)`,
+                transform: `translateY(-${scrollProgress * 15}px)`,
               }}
             >
               <div className="hero-role">
@@ -108,81 +179,19 @@ export default function Hero() {
                 <span className="hero-role-dot">•</span>
                 <span className="hero-role-sub">{personal.degreeTag}</span>
               </div>
-              <div className="miles-script-tag">
-                <span>{isSpiderMode ? 'FULL STACK WEB-SLINGER' : 'FULL STACK DEVELOPER'}</span>
-              </div>
             </div>
 
+            {/* Description (Neat & Breathable) */}
             <p
               className="hero-description hero-anim-item"
               style={{
-                transform: `translateY(-${scrollProgress * 14}px)`,
+                transform: `translateY(-${scrollProgress * 12}px)`,
               }}
             >
               {personal.description}
             </p>
 
-            {/* "Find Me on" Quick Contact Details (Matching Reference Image 2) */}
-            <div
-              className="hero-find-me hero-anim-item"
-              style={{
-                transform: `translateY(-${scrollProgress * 10}px)`,
-              }}
-            >
-              <span className="find-me-label">Find Me on</span>
-              <div className="find-me-icons">
-                <a
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="find-me-btn"
-                  title="GitHub"
-                  aria-label="GitHub Profile"
-                >
-                  <GithubIcon size={16} />
-                </a>
-                <a
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="find-me-btn"
-                  title="LinkedIn"
-                  aria-label="LinkedIn Profile"
-                >
-                  <LinkedinIcon size={16} />
-                </a>
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="find-me-btn"
-                  title="Direct Email"
-                  aria-label="Email Siva"
-                >
-                  <Mail size={16} />
-                </a>
-                <a
-                  href={`tel:${personal.phone.replace(/\s+/g, '')}`}
-                  className="find-me-btn"
-                  title="Phone / WhatsApp"
-                  aria-label="Call or WhatsApp"
-                >
-                  <Phone size={16} />
-                </a>
-                <a
-                  href="#contact"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleScrollToContact();
-                  }}
-                  className="find-me-btn"
-                  title={`Location: ${personal.location}`}
-                  aria-label="Location & Contact"
-                >
-                  <MapPin size={16} />
-                </a>
-              </div>
-            </div>
-
-            {/* Call to Action Buttons */}
+            {/* CTA Buttons with Sliding Interactive Micro-Animations */}
             <div
               className="hero-actions hero-anim-item"
               style={{
@@ -195,7 +204,7 @@ export default function Hero() {
                 id="btn-view-work"
               >
                 <span>VIEW MY WORK</span>
-                <ArrowRight size={18} />
+                <ArrowRight size={17} className="btn-arrow-slide" />
               </button>
 
               <a
@@ -206,12 +215,12 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Download size={18} />
+                <Download size={17} className="btn-download-icon" />
                 <span>DOWNLOAD RESUME</span>
               </a>
             </div>
 
-            {/* Quick Resume Badges */}
+            {/* Clean Highlight Chips */}
             <div
               className="hero-highlights hero-anim-item"
               style={{

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, SpiderIcon } from './Icons';
 import SpiderLogo from './SpiderLogo';
+import SpideyTrackerHUD from './SpideyTrackerHUD';
 import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
 import '../styles/navbar.css';
@@ -64,30 +65,35 @@ export default function Navbar() {
   return (
     <header className={`navbar-wrapper ${scrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-inner">
-        {/* Brand Logo with Scroll-Linked Avatar Transition */}
-        <a
-          href="#home"
-          className={`nav-logo ${scrolled ? 'nav-logo-avatar-mode' : ''}`}
-          onClick={(e) => {
-            e.preventDefault();
-            handleNavClick('home');
-          }}
-          title="Siva M // Back to Top"
-        >
-          {scrolled ? (
-            <div className="nav-avatar-slot">
-              <img src="/profile.jpg" alt="Siva" className="nav-avatar-img" />
-              <div className="nav-avatar-ring-glow" />
+        {/* Brand Group with Logo & Hanging Spidey Contact directly below SIVZZ */}
+        <div className="nav-brand-container">
+          <a
+            href="#home"
+            className={`nav-logo ${scrolled ? 'nav-logo-avatar-mode' : ''}`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('home');
+            }}
+            title="Siva M // Back to Top"
+          >
+            {scrolled ? (
+              <div className="nav-avatar-slot">
+                <img src="/profile.jpg" alt="Siva" className="nav-avatar-img" />
+                <div className="nav-avatar-ring-glow" />
+              </div>
+            ) : (
+              <div className="nav-logo-spider">
+                <SpiderLogo size={28} glow={isSpiderMode} animate={isSpiderMode} />
+              </div>
+            )}
+            <div className="nav-logo-text">
+              {personal.shortName.toUpperCase()}
             </div>
-          ) : (
-            <div className="nav-logo-spider">
-              <SpiderLogo size={28} glow={isSpiderMode} animate={isSpiderMode} />
-            </div>
-          )}
-          <div className="nav-logo-text">
-            {personal.shortName.toUpperCase()}
-          </div>
-        </a>
+          </a>
+
+          {/* Hanging Upside-Down Spidey Mascot (hangs below SIVZZ) */}
+          <SpideyTrackerHUD />
+        </div>
 
         {/* Desktop Navigation Links */}
         <nav>

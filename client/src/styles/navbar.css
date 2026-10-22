@@ -27,6 +27,13 @@
   justify-content: space-between;
 }
 
+/* Brand Group Container */
+.nav-brand-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
 /* Brand Logo */
 .nav-logo {
   display: flex;
@@ -300,12 +307,65 @@
   }
 }
 
+/* Spider Button Beacon Blinking when Theme is OFF */
+.nav-spider-btn:not(.active) {
+  position: relative;
+  animation: spiderOffBeaconPulse 2s ease-in-out infinite;
+  color: var(--text-secondary);
+}
+
+@keyframes spiderOffBeaconPulse {
+  0%, 100% {
+    border-color: rgba(230, 36, 41, 0.4);
+    box-shadow: 0 0 6px rgba(230, 36, 41, 0.25);
+    color: #cbd5e1;
+    transform: scale(1);
+  }
+  50% {
+    border-color: #ff3b44;
+    box-shadow: 0 0 16px rgba(230, 36, 41, 0.8), 0 0 25px rgba(230, 36, 41, 0.4);
+    background: rgba(230, 36, 41, 0.14);
+    color: #ffffff;
+    transform: scale(1.06);
+  }
+}
+
+/* Pulsing radar ping indicator dot on top-right of spider toggle button when theme is OFF */
+.nav-spider-btn:not(.active)::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff2a32;
+  box-shadow: 0 0 8px #ff2a32, 0 0 16px rgba(255, 42, 50, 0.85);
+  animation: spiderOffPing 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes spiderOffPing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+    box-shadow: 0 0 12px #ff2a32, 0 0 22px #ff2a32;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.85;
+  }
+}
+
 .nav-spider-btn:not(.active):hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  background: rgba(230, 36, 41, 0.25);
+  border-color: #ff3b44;
+  box-shadow: 0 0 18px rgba(230, 36, 41, 0.7);
+  transform: translateY(-2px) scale(1.08);
 }
 
 .nav-spider-btn:active {
