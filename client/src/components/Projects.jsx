@@ -1,4 +1,4 @@
-import { FolderGit2, ExternalLink, Activity, Film, Eye, Code } from 'lucide-react';
+import { FolderGit2, ExternalLink, Activity, Film, Eye, Code, Smartphone, Clock } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import portfolioData from '../data/portfolioData';
 import '../styles/projects.css';
@@ -73,7 +73,7 @@ export default function Projects() {
             MY <span className="accent-red">PROJECTS</span>
           </h2>
           <p className="section-subtitle">
-            Engineered software systems ranging from full-stack mobile applications to computer-vision accessibility tools.
+            Engineered software systems ranging from predictive analytics web applications to computer-vision tools.
           </p>
           <div className="web-divider">
             <span />
@@ -90,49 +90,82 @@ export default function Projects() {
                 key={project.id}
                 className={`project-card ${slideClass} delay-${(idx + 1) * 150}`}
               >
-              {/* Top Generative Visual Canvas */}
-              <div className="project-visual-wrapper">
-                <div className="project-visual-grid" />
-                <span className="project-type-badge">{project.badge || project.type}</span>
-                <span className="project-period-badge">{project.period}</span>
-                <div className="project-visual-canvas">
-                  {renderProjectGraphic(project.graphicType)}
-                </div>
-              </div>
-
-              {/* Card Body */}
-              <div className="project-body">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-desc">{project.description}</p>
-
-                {/* Tech Stack Pills */}
-                <div className="project-tech-list">
-                  {project.technologies.map((tech, idx) => (
-                    <span key={idx} className="project-tech-tag">
-                      {tech}
-                    </span>
-                  ))}
+                {/* Top Generative Visual Canvas */}
+                <div className="project-visual-wrapper">
+                  <div className="project-visual-grid" />
+                  <span className="project-type-badge">{project.badge || project.type}</span>
+                  <span className="project-period-badge">{project.period}</span>
+                  <div className="project-visual-canvas">
+                    {renderProjectGraphic(project.graphicType)}
+                  </div>
                 </div>
 
-                {/* Footer Action */}
-                <div className="project-footer">
-                  {project.github ? (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-code-link"
-                    >
-                      <GithubIcon size={16} />
-                      <span>View Source Code</span>
-                    </a>
-                  ) : (
-                    <span className="project-view-details">Verified Project</span>
-                  )}
-                  <span className="project-view-details">{project.highlight}</span>
+                {/* Card Body */}
+                <div className="project-body">
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-desc">{project.description}</p>
+
+                  {/* Tech Stack Pills */}
+                  <div className="project-tech-list">
+                    {project.technologies.map((tech, idx) => (
+                      <span key={idx} className="project-tech-tag">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Footer Action: GitHub Link + Live Demo or Status */}
+                  <div className="project-footer">
+                    <div className="project-links">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-btn project-btn-github"
+                          aria-label={`View GitHub repository for ${project.title}`}
+                          title="View Source Code on GitHub"
+                        >
+                          <GithubIcon size={15} />
+                          <span>GitHub</span>
+                        </a>
+                      )}
+
+                      {project.live ? (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-btn project-btn-live"
+                          aria-label={`View live demo for ${project.title}`}
+                          title={project.liveNote || "Launch Live Demo"}
+                        >
+                          <span className="live-pulse-dot" />
+                          <span>Live Demo</span>
+                          <ExternalLink size={13} className="live-external-icon" />
+                        </a>
+                      ) : (
+                        <div
+                          className="project-btn project-btn-status"
+                          title={project.liveNote || project.liveStatus || "Coming Soon"}
+                        >
+                          {project.id === 'gymlog' ? (
+                            <>
+                              <Smartphone size={13} className="status-icon status-icon-blue" />
+                              <span>{project.liveStatus || "APK Coming Soon"}</span>
+                            </>
+                          ) : (
+                            <>
+                              <Clock size={13} className="status-icon status-icon-amber" />
+                              <span>{project.liveStatus || "In Development"}</span>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
             );
           })}
         </div>

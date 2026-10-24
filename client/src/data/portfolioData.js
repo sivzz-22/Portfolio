@@ -122,6 +122,22 @@ export const portfolioData = {
   // -----------------------------------------------------------------
   projects: [
     {
+      id: "moviepric",
+      title: "MoviePric – Movie Success Prediction",
+      period: "2026 Mar - May",
+      type: "Full Stack Web App",
+      badge: "Machine Learning & Analytics",
+      description:
+        "Built a predictive movie analytics platform with an interactive dashboard, box-office indicators, and integrated dataset evaluation models to forecast commercial success.",
+      technologies: ["Machine Learning", "Python", "Node.js", "Bootstrap", "JavaScript"],
+      github: "https://github.com/sivzz-22/MoviePric",
+      live: "https://movie-hit-prediction.onrender.com/",
+      liveStatus: "Live Demo",
+      liveNote: "Movie Success Prediction Dashboard",
+      highlight: "Interactive dataset evaluation & prediction algorithms",
+      graphicType: "cinemaAnalytics"
+    },
+    {
       id: "gymlog",
       title: "GymLog: Fitness Tracker & Gym Management",
       period: "2026 Jan - Mar",
@@ -130,22 +146,12 @@ export const portfolioData = {
       description:
         "Developed a comprehensive mobile fitness application with workout tracking, member management, subscription monitoring, real-time analytics dashboard, and secure user authentication.",
       technologies: ["React Native", "Expo", "Node.js", "Express.js", "MongoDB", "JWT"],
-      github: "https://github.com/sivzz-22/Big_Buddy_Admin",
+      github: "https://github.com/sivzz-22/Big_Buddy_App",
+      live: null,
+      liveStatus: "APK Coming Soon",
+      liveNote: "Mobile App APK will be provided",
       highlight: "Real-time member subscription tracking & workout logs",
       graphicType: "fitnessPulse"
-    },
-    {
-      id: "moviepric",
-      title: "MoviePric – Movie Success Prediction",
-      period: "2026 Mar - May",
-      type: "Full Stack Web App",
-      badge: "Predictive System",
-      description:
-        "Built a donor registration and search system with comprehensive form validation and integrated movie dataset analysis logic.",
-      technologies: ["Bootstrap", "Node.js", "Oracle DB", "JavaScript"],
-      github: "https://github.com/sivzz-22/Movie_Predicition",
-      highlight: "Robust form validation & relational Oracle DB pipeline",
-      graphicType: "cinemaAnalytics"
     },
     {
       id: "handsfree-pc",
@@ -156,7 +162,10 @@ export const portfolioData = {
       description:
         "Developed an assistive technology system enabling hands-free PC navigation using eye and head movement with click detection, integrated voice commands for enhanced accessibility, and packaged as a desktop app.",
       technologies: ["HTML", "CSS", "JavaScript", "OpenCV", "MediaPipe", "Electron.js"],
-      github: "https://github.com/sivzz-22/Handfree-Navigator.git",
+      github: "https://github.com/sivzz-22/HandsFree_PC_Navigator",
+      live: null,
+      liveStatus: "In Development",
+      liveNote: "Still in development phase",
       highlight: "AI-driven head movement, eye gaze tracking & voice controls",
       graphicType: "eyeNavigation"
     }

@@ -142,33 +142,128 @@
 .project-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding-top: 1.25rem;
+  margin-top: auto;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.project-code-link {
+.project-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.project-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--spider-blue-glow);
-  transition: all var(--transition-fast);
-}
-
-.project-code-link:hover {
-  color: #ffffff;
-  transform: translateX(3px);
-}
-
-.project-view-details {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
   font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  flex: 1;
+  min-height: 38px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* GitHub Code Button */
+.project-btn-github {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e2e8f0;
+}
+
+.project-btn-github:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Live Demo Button (Active) */
+.project-btn-live {
+  background: linear-gradient(135deg, rgba(230, 36, 41, 0.2), rgba(18, 102, 241, 0.22));
+  border: 1px solid var(--spider-red-glow);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(230, 36, 41, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-btn-live:hover {
+  background: linear-gradient(135deg, rgba(230, 36, 41, 0.38), rgba(18, 102, 241, 0.38));
+  border-color: #ff3b44;
+  box-shadow: 0 0 20px rgba(230, 36, 41, 0.6), 0 0 30px rgba(18, 102, 241, 0.3);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.live-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981, 0 0 14px #10b981;
+  animation: livePing 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  flex-shrink: 0;
+}
+
+@keyframes livePing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+.live-external-icon {
+  margin-left: 2px;
+  opacity: 0.85;
+  transition: transform var(--transition-fast);
+}
+
+.project-btn-live:hover .live-external-icon {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+/* Status Button (when live demo is not yet available) */
+.project-btn-status {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.16);
   color: var(--text-muted);
+  cursor: default;
+  user-select: none;
+  font-size: 0.76rem;
+}
+
+.status-icon {
+  flex-shrink: 0;
+}
+
+.status-icon-blue {
+  color: var(--spider-blue-glow);
+}
+
+.status-icon-amber {
+  color: #f59e0b;
+}
+
+.project-btn-status:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text-secondary);
 }
 
 /* Specialized Project Visual Graphics */
@@ -223,5 +318,14 @@
 @media (max-width: 768px) {
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-links {
+    flex-direction: column;
+  }
+  .project-btn {
+    width: 100%;
   }
 }
