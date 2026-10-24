@@ -172,6 +172,49 @@ export const portfolioData = {
   ],
 
   // -----------------------------------------------------------------
+  // 5b. MORE PROJECTS (Compact Archive Grid with direct GitHub links)
+  // Tap card to navigate directly to GitHub repository
+  // -----------------------------------------------------------------
+  moreProjects: [
+    {
+      id: "more-1",
+      title: "BloodCare – Donor Finder",
+      description: "Emergency blood donor registration and location-based request coordination portal",
+      github: "https://github.com/sivzz-22",
+    },
+    {
+      id: "more-2",
+      title: "PathFinder Visualizer",
+      description: "Interactive path-finding and graph search visualizer using Dijkstra, A*, and BFS algorithms",
+      github: "https://github.com/sivzz-22",
+    },
+    {
+      id: "more-3",
+      title: "Smart Attendance Logger",
+      description: "Automated student attendance tracking system powered by OpenCV and facial feature extraction",
+      github: "https://github.com/sivzz-22",
+    },
+    {
+      id: "more-4",
+      title: "Async Data Pipeline",
+      description: "High-throughput asynchronous web crawler and dataset aggregator for research indexing",
+      github: "https://github.com/sivzz-22",
+    },
+    {
+      id: "more-5",
+      title: "CLI Developer Toolkit",
+      description: "Lightweight command-line productivity suite for automated project scaffolding and Git workflow",
+      github: "https://github.com/sivzz-22",
+    },
+    {
+      id: "more-6",
+      title: "Personal Portfolio v1",
+      description: "Initial personal developer portfolio website exploring responsive tokens and CSS animations",
+      github: "https://github.com/sivzz-22",
+    }
+  ],
+
+  // -----------------------------------------------------------------
   // 6. EDUCATION TIMELINE
   // -----------------------------------------------------------------
   education: [

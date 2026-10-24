@@ -1,10 +1,12 @@
-import { FolderGit2, ExternalLink, Activity, Film, Eye, Code, Smartphone, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { FolderGit2, ExternalLink, Activity, Film, Eye, Code, Smartphone, Clock, Plus, X, ArrowUpRight } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import portfolioData from '../data/portfolioData';
 import '../styles/projects.css';
 
 export default function Projects() {
-  const { projects } = portfolioData;
+  const { projects, moreProjects = [] } = portfolioData;
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   // Render original visual graphic based on project type
   const renderProjectGraphic = (graphicType) => {
@@ -169,6 +171,55 @@ export default function Projects() {
             );
           })}
         </div>
+
+        {/* Expandable "More Projects" Section (Reference Screenshot Aesthetic) */}
+        {moreProjects.length > 0 && (
+          <div className="more-projects-wrapper">
+            {/* Minimal Header Toggle */}
+            <div className="more-projects-header">
+              <button
+                type="button"
+                className="more-projects-toggle-btn"
+                onClick={() => setIsMoreOpen(!isMoreOpen)}
+                aria-expanded={isMoreOpen}
+                title={isMoreOpen ? "Collapse archive" : "Expand more projects archive"}
+              >
+                <span className="more-projects-title">More projects</span>
+                <span className="more-projects-count">{moreProjects.length}</span>
+                <span className="more-projects-icon">
+                  {isMoreOpen ? <X size={16} /> : <Plus size={16} />}
+                </span>
+              </button>
+            </div>
+
+            {/* Expandable Minimal Project Cards Grid */}
+            {isMoreOpen && (
+              <div className="more-projects-grid">
+                {moreProjects.map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="more-project-card"
+                    title={`View ${item.title} repository on GitHub ↗`}
+                  >
+                    <div className="more-project-content">
+                      <div className="more-project-title-row">
+                        <h4 className="more-project-title">{item.title}</h4>
+                        <div className="more-project-arrow">
+                          <GithubIcon size={14} className="more-github-icon" />
+                          <ArrowUpRight size={14} className="more-arrow-icon" />
+                        </div>
+                      </div>
+                      <p className="more-project-desc">{item.description}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
