@@ -1,5 +1,6 @@
 import { SpiderThemeProvider } from './context/SpiderThemeContext';
 import CustomCursor from './components/CustomCursor';
+import CursorSpotlight from './components/CursorSpotlight';
 import SpiderWebBackground from './components/SpiderWebBackground';
 import WebShooter from './components/WebShooter';
 import SpiderCrawlers from './components/SpiderCrawlers';
@@ -16,6 +17,7 @@ import SectionSlideSeparator from './components/SectionSlideSeparator';
 import useScrollReveal from './hooks/useScrollReveal';
 import './styles/spiderman-effects.css';
 import './styles/section-slide.css';
+import './styles/enhancements.css';
 
 export default function App() {
   useScrollReveal();
@@ -25,6 +27,9 @@ export default function App() {
       <div className="portfolio-app-root">
         {/* Spider-Man Custom Cursor for Desktop */}
         <CustomCursor />
+
+        {/* Ambient Cursor Spotlight Glow */}
+        <CursorSpotlight />
 
         {/* Interactive Web-Shooter System (Click-to-Shoot with THWIP burst) */}
         <WebShooter />

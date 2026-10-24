@@ -16,7 +16,7 @@ export default function Footer() {
         <div className="footer-top">
           {/* Brand */}
           <div className="footer-brand">
-            <div className="footer-logo">
+            <div className="footer-logo footer-brand-text">
               {personal.shortName.toUpperCase()}<span>.DEV</span>
             </div>
             <p className="footer-tagline">{footer.tagline}</p>
