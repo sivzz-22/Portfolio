@@ -143,7 +143,7 @@ export default function Projects() {
                           title={project.liveNote || "Launch Live Demo"}
                         >
                           <span className="live-pulse-dot" />
-                          <span>Live Demo</span>
+                          <span>{project.liveStatus || "Live Demo"}</span>
                           <ExternalLink size={13} className="live-external-icon" />
                         </a>
                       ) : (
