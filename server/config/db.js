@@ -10,8 +10,10 @@ export const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(uri);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(uri, {
+      dbName: 'portfolio',
+    });
+    console.log(`✅ MongoDB Connected to database "${conn.connection.name}": ${conn.connection.host}`);
     return true;
   } catch (error) {
     console.error(`❌ MongoDB Connection Failed: ${error.message}`);

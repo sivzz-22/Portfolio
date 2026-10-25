@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Loader2, MessageCircle } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import portfolioData from '../data/portfolioData';
+import { API_BASE } from '../config/api';
 import '../styles/contact.css';
 
 export default function Contact() {
@@ -55,7 +56,7 @@ export default function Contact() {
     setStatus({ submitting: true, success: false, error: false, message: '' });
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
