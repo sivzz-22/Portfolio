@@ -7,7 +7,8 @@ import Contact from '../models/Contact.js';
  */
 const createTransporter = () => {
   const user = process.env.EMAIL_USER;
-  const pass = process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD;
+  const rawPass = process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD;
+  const pass = rawPass ? rawPass.replace(/\s+/g, '') : null;
 
   if (!user || !pass) return null;
 

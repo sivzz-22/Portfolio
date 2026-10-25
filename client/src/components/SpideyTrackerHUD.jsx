@@ -10,9 +10,11 @@ export default function SpideyTrackerHUD() {
   const [swung, setSwung] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [quickMsg, setQuickMsg] = useState('');
   const [quickName, setQuickName] = useState('');
+  const [quickEmail, setQuickEmail] = useState('');
+  const [quickMsg, setQuickMsg] = useState('');
   const [sent, setSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const { personal, social } = portfolioData;
 
   useEffect(() => {
@@ -48,37 +50,52 @@ export default function SpideyTrackerHUD() {
 
   const handleSendQuickSignal = async (e) => {
     e.preventDefault();
-    if (!quickMsg.trim()) return;
+    setErrorMessage('');
+
+    if (!quickName.trim() || !quickEmail.trim() || !quickMsg.trim()) {
+      setErrorMessage('Please fill in all fields (Name, Email & Message)');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(quickEmail)) {
+      setErrorMessage('Please provide a valid email address');
+      return;
+    }
 
     setIsSendingSignal(true);
     try {
-      await fetch('/api/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: quickName.trim() || 'Spider-Comms Ally',
-          email: 'spidey-hud@signal.transmission',
+          name: quickName.trim(),
+          email: quickEmail.trim(),
           message: `[🕷️ SPIDER-SIGNAL TRANSMISSION]\n${quickMsg.trim()}`,
         }),
       });
-    } catch (err) {
-      console.warn('Backend signal transmission failed, saved locally:', err);
-    } finally {
-      setIsSendingSignal(false);
+
+      if (!response.ok) {
+        throw new Error('Server returned an error');
+      }
+
       setSent(true);
+      setQuickMsg('');
+      setQuickName('');
+      setQuickEmail('');
       setTimeout(() => {
         setSent(false);
-        setQuickMsg('');
-        setQuickName('');
-      }, 4000);
+      }, 5000);
+    } catch (err) {
+      console.warn('Backend signal transmission failed, fallback to mail client:', err);
+      const subject = encodeURIComponent(`Spider-Signal Transmission from ${quickName}`);
+      const body = encodeURIComponent(`From: ${quickName} (${quickEmail})\n\nMessage:\n${quickMsg}`);
+      window.location.href = `mailto:${personal.email}?subject=${subject}&body=${body}`;
+      setSent(true);
+      setTimeout(() => setSent(false), 5000);
+    } finally {
+      setIsSendingSignal(false);
     }
-  };
-
-  const handleWhatsAppSignal = () => {
-    const text = encodeURIComponent(
-      `🕷️ [SPIDER SIGNAL] Hi Siva!\nFrom: ${quickName.trim() || 'Portfolio Visitor'}\nMessage: ${quickMsg.trim() || 'Looking forward to connecting with you!'}`
-    );
-    window.open(`https://wa.me/917708857133?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   // When at top of page (scrollY < 40), Spidey is OUT and hanging directly below SIVZZ!
@@ -196,8 +213,8 @@ export default function SpideyTrackerHUD() {
 
                   <a href={`https://wa.me/${personal.phone.replace(/[^0-9]/g, '')}`} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
                     <span className="hud-stat-title">WHATSAPP</span>
-                    <span className="hud-stat-val" style={{ color: '#25D366' }}>Message on WhatsApp</span>
-                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Quick chat ↗</span>
+                    <span className="hud-stat-val">+91 770 885 7133</span>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Direct chat ↗</span>
                   </a>
 
                   <a href={social.linkedin} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
@@ -219,34 +236,36 @@ export default function SpideyTrackerHUD() {
                     &gt; QUICK SPIDER-SIGNAL TRANSMISSION:
                   </p>
                   {sent ? (
-                    <div className="quick-signal-success" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
+                    <div className="quick-signal-success" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'center', textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Check size={20} className="text-green" />
+                        <Check size={18} className="text-green" />
                         <span style={{ fontWeight: 600, color: '#4ade80' }}>SIGNAL TRANSMITTED TO SIVA!</span>
                       </div>
                       <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                        Logged to database. For real-time response, you can also send via WhatsApp:
+                        Your message has been received with your email address. Siva will respond to you shortly!
                       </span>
-                      <button
-                        type="button"
-                        onClick={handleWhatsAppSignal}
-                        className="btn-spider-primary"
-                        style={{ background: '#25D366', borderColor: '#25D366', padding: '0.35rem 0.9rem', fontSize: '0.75rem', marginTop: '0.25rem' }}
-                      >
-                        ⚡ INSTANT WHATSAPP NOTIFICATION
-                      </button>
                     </div>
                   ) : (
                     <form onSubmit={handleSendQuickSignal} className="quick-signal-form">
                       <div className="quick-signal-inputs">
-                        <input
-                          type="text"
-                          placeholder="Your Name / Organization"
-                          className="quick-input"
-                          value={quickName}
-                          onChange={(e) => setQuickName(e.target.value)}
-                          required
-                        />
+                        <div className="quick-signal-row">
+                          <input
+                            type="text"
+                            placeholder="Your Name / Organization"
+                            className="quick-input"
+                            value={quickName}
+                            onChange={(e) => setQuickName(e.target.value)}
+                            required
+                          />
+                          <input
+                            type="email"
+                            placeholder="Your Email Address"
+                            className="quick-input"
+                            value={quickEmail}
+                            onChange={(e) => setQuickEmail(e.target.value)}
+                            required
+                          />
+                        </div>
                         <input
                           type="text"
                           placeholder="Quick Message / Opportunity..."
@@ -255,38 +274,17 @@ export default function SpideyTrackerHUD() {
                           onChange={(e) => setQuickMsg(e.target.value)}
                           required
                         />
-                        <div style={{ display: 'flex', gap: '0.5rem', width: '100%' }}>
-                          <button
-                            type="submit"
-                            className="btn-spider-primary quick-submit-btn"
-                            disabled={isSendingSignal}
-                            style={{ flex: 1 }}
-                          >
-                            <Send size={14} />
-                            <span>{isSendingSignal ? 'TRANSMITTING...' : 'SEND SIGNAL'}</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={handleWhatsAppSignal}
-                            className="quick-submit-btn"
-                            style={{
-                              background: 'rgba(37, 211, 102, 0.15)',
-                              borderColor: 'rgba(37, 211, 102, 0.4)',
-                              color: '#25D366',
-                              padding: '0.5rem 0.85rem',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              fontWeight: 600,
-                              fontSize: '0.75rem',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.35rem'
-                            }}
-                            title="Direct WhatsApp dispatch"
-                          >
-                            <span>WHATSAPP ↗</span>
-                          </button>
-                        </div>
+                        {errorMessage && (
+                          <span style={{ color: '#ef4444', fontSize: '0.75rem' }}>{errorMessage}</span>
+                        )}
+                        <button
+                          type="submit"
+                          className="btn-spider-primary quick-submit-btn"
+                          disabled={isSendingSignal}
+                        >
+                          <Send size={14} />
+                          <span>{isSendingSignal ? 'TRANSMITTING...' : 'SEND SIGNAL'}</span>
+                        </button>
                       </div>
                     </form>
                   )}

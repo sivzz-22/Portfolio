@@ -458,9 +458,26 @@
 
 .quick-signal-inputs {
   display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.quick-signal-row {
+  display: flex;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.quick-signal-row .quick-input {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .quick-signal-row {
+    flex-direction: column;
+  }
 }
 
 .quick-input {
@@ -481,16 +498,17 @@
 }
 
 .quick-input.msg-input {
-  flex: 1;
-  min-width: 180px;
+  width: 100%;
 }
 
 .quick-submit-btn {
-  padding: 0.55rem 1rem;
+  padding: 0.65rem 1rem;
   font-size: 0.75rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
+  width: 100%;
 }
 
 .quick-signal-success {
