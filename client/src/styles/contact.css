@@ -64,6 +64,18 @@
   color: var(--spider-blue-glow);
 }
 
+/* WhatsApp Card */
+.contact-method-whatsapp:hover {
+  border-color: rgba(37, 211, 102, 0.4);
+  background: rgba(37, 211, 102, 0.05);
+}
+
+.contact-method-icon-whatsapp {
+  background: rgba(37, 211, 102, 0.12) !important;
+  border-color: rgba(37, 211, 102, 0.3) !important;
+  color: #25D366 !important;
+}
+
 .contact-method-text {
   display: flex;
   flex-direction: column;

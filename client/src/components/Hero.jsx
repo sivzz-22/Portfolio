@@ -97,25 +97,37 @@ export default function Hero() {
                 />
               </div>
 
-              {/* Interactive Floating Micro-Badges on Portrait */}
+              {/* Floating Chip 1 — Top Left */}
               <div
                 className="hero-floating-chip chip-top-left"
                 style={{
                   transform: `translate(${mousePos.x * -12}px, ${mousePos.y * -10}px)`,
                 }}
               >
-                <span className="chip-icon">{isSpiderMode ? '🕷️' : '⚡'}</span>
-                <span className="chip-text">{isSpiderMode ? 'Earth-1610' : 'Clean Architecture'}</span>
+                <span className="chip-icon">{isSpiderMode ? '🎬' : '🚀'}</span>
+                <span className="chip-text">{isSpiderMode ? 'Digital Editing' : 'Full Stack Dev'}</span>
               </div>
 
+              {/* Floating Chip 2 — Bottom Right */}
               <div
                 className="hero-floating-chip chip-bottom-right"
                 style={{
                   transform: `translate(${mousePos.x * 14}px, ${mousePos.y * 12}px)`,
                 }}
               >
-                <span className="chip-icon">{isSpiderMode ? '🕸️' : '🚀'}</span>
-                <span className="chip-text">{isSpiderMode ? 'Web-Slinger' : 'Full Stack Dev'}</span>
+                <span className="chip-icon">{isSpiderMode ? '✍️' : '🎨'}</span>
+                <span className="chip-text">{isSpiderMode ? 'Content Design' : 'UI & UX Design'}</span>
+              </div>
+
+              {/* Floating Chip 3 — Bottom Left */}
+              <div
+                className="hero-floating-chip chip-bottom-left"
+                style={{
+                  transform: `translate(${mousePos.x * -10}px, ${mousePos.y * 14}px)`,
+                }}
+              >
+                <span className="chip-icon">{isSpiderMode ? '💪' : '🤖'}</span>
+                <span className="chip-text">{isSpiderMode ? 'Fitness Blog' : 'AI & ML'}</span>
               </div>
 
               {/* 3D Organic Portrait Stage with mouse tilt & bottom fade */}

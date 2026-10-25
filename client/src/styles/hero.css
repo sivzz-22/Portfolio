@@ -254,11 +254,19 @@
 }
 
 .chip-bottom-right {
-  bottom: 14%;
+  bottom: 20%;
   right: -5px;
   border-color: rgba(230, 36, 41, 0.35);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(230, 36, 41, 0.25);
   animation: chipFloatB 7s ease-in-out infinite alternate;
+}
+
+.chip-bottom-left {
+  bottom: 5%;
+  left: -5px;
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.2);
+  animation: chipFloatC 8s ease-in-out infinite alternate;
 }
 
 @keyframes chipFloatA {
@@ -269,6 +277,11 @@
 @keyframes chipFloatB {
   0%   { transform: translateY(0px); }
   100% { transform: translateY(8px); }
+}
+
+@keyframes chipFloatC {
+  0%   { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-6px) translateX(4px); }
 }
 
 .chip-icon {

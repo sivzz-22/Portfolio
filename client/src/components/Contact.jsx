@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Loader2, MessageCircle } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import portfolioData from '../data/portfolioData';
 import '../styles/contact.css';
@@ -30,12 +30,24 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus({
         submitting: false,
         success: false,
         error: true,
-        message: 'Please fill in all fields before transmitting.',
+        message: 'Please fill in all fields before sending.',
+      });
+      return;
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setStatus({
+        submitting: false,
+        success: false,
+        error: true,
+        message: 'Please enter a valid email address.',
       });
       return;
     }
@@ -43,12 +55,9 @@ export default function Contact() {
     setStatus({ submitting: true, success: false, error: false, message: '' });
 
     try {
-      // Attempt sending to backend API
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
@@ -57,26 +66,28 @@ export default function Contact() {
           submitting: false,
           success: true,
           error: false,
-          message: 'Transmission received! Thank you for reaching out, Siva will respond shortly.',
+          message: '✅ Message sent successfully! Siva will respond to your email shortly.',
         });
         setFormData({ name: '', email: '', message: '' });
       } else {
-        throw new Error('Backend response was not ok');
+        throw new Error('Server error');
       }
-    } catch (err) {
-      // Graceful fallback if backend server / MongoDB is not currently running locally
-      console.warn('Backend API unavailable, using resilient fallback:', err.message);
-
-      // Offer smooth fallback and also prepare direct mailto option
+    } catch {
+      // Graceful fallback: direct mailto link opens
+      const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
+      const body = encodeURIComponent(`Hi Siva,\n\n${formData.message}\n\nFrom: ${formData.name}\nEmail: ${formData.email}`);
+      window.location.href = `mailto:${personal.email}?subject=${subject}&body=${body}`;
       setStatus({
         submitting: false,
         success: true,
         error: false,
-        message: 'Message dispatched! (Logged locally; you can also email directly via the link on the left).',
+        message: '📧 Opening your email client to send the message directly to Siva.',
       });
       setFormData({ name: '', email: '', message: '' });
     }
   };
+
+  const whatsappNumber = personal.phone.replace(/[^0-9]/g, '');
 
   return (
     <section id="contact" className="section">
@@ -123,7 +134,23 @@ export default function Contact() {
                   <Phone size={22} />
                 </div>
                 <div className="contact-method-text">
-                  <span className="contact-method-label">Phone / WhatsApp</span>
+                  <span className="contact-method-label">Phone Call</span>
+                  <span className="contact-method-val">{personal.phone}</span>
+                </div>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-method-card contact-method-whatsapp"
+              >
+                <div className="contact-method-icon contact-method-icon-whatsapp">
+                  <MessageCircle size={22} />
+                </div>
+                <div className="contact-method-text">
+                  <span className="contact-method-label">WhatsApp</span>
                   <span className="contact-method-val">{personal.phone}</span>
                 </div>
               </a>

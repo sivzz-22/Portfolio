@@ -48,11 +48,15 @@ export default function SpideyTrackerHUD() {
     e.preventDefault();
     if (!quickMsg.trim()) return;
     setSent(true);
+    // After 2s, close HUD and scroll to full contact form
     setTimeout(() => {
       setSent(false);
       setQuickMsg('');
       setQuickName('');
-    }, 3000);
+      setIsOpen(false);
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 2000);
   };
 
   // When at top of page (scrollY < 40), Spidey is OUT and hanging directly below SIVZZ!
@@ -168,21 +172,21 @@ export default function SpideyTrackerHUD() {
                     </span>
                   </div>
 
-                  <a href={`mailto:${personal.email}`} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
-                    <span className="hud-stat-title">COMMS LINK</span>
-                    <span className="hud-stat-val text-cyan">Launch Mailer</span>
-                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Open mail client ↗</span>
+                  <a href={`https://wa.me/${personal.phone.replace(/[^0-9]/g, '')}`} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
+                    <span className="hud-stat-title">WHATSAPP</span>
+                    <span className="hud-stat-val" style={{ color: '#25D366' }}>Message on WhatsApp</span>
+                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Quick chat ↗</span>
                   </a>
 
                   <a href={social.linkedin} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
                     <span className="hud-stat-title">LINKEDIN</span>
-                    <span className="hud-stat-val text-yellow">/in/sivzz</span>
+                    <span className="hud-stat-val text-yellow">/in/siva-saravana-kumar-m</span>
                     <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Connect on LinkedIn ↗</span>
                   </a>
 
                   <a href={social.github} className="hud-stat-box" target="_blank" rel="noopener noreferrer">
                     <span className="hud-stat-title">GITHUB</span>
-                    <span className="hud-stat-val">/sivzz</span>
+                    <span className="hud-stat-val">/sivzz-22</span>
                     <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>Inspect Repositories ↗</span>
                   </a>
                 </div>
@@ -195,7 +199,7 @@ export default function SpideyTrackerHUD() {
                   {sent ? (
                     <div className="quick-signal-success">
                       <Check size={20} className="text-green" />
-                      <span>SIGNAL TRANSMITTED! Siva will respond promptly via your web channel.</span>
+                      <span>SIGNAL RECEIVED! Redirecting to full contact form for proper transmission...</span>
                     </div>
                   ) : (
                     <form onSubmit={handleSendQuickSignal} className="quick-signal-form">
