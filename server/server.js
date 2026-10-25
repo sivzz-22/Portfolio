@@ -21,6 +21,16 @@ connectDB();
 // API Routes
 app.use('/api/contact', contactRoutes);
 
+// Welcome / Root Route
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: "Siva Saravana Kumar's Portfolio Backend API",
+    healthCheck: '/api/health',
+    contactEndpoint: '/api/contact',
+  });
+});
+
 // Health Check Route
 app.get('/api/health', (req, res) => {
   res.json({
