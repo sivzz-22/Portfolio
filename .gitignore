@@ -1,0 +1,30 @@
+# Environment Variables (Keep Private & Never Commit)
+.env
+.env.*
+server/.env
+server/.env.*
+client/.env
+client/.env.*
+
+# Dependencies
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# Production Builds
+dist/
+dist-ssr/
+client/dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS and Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
