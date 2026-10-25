@@ -4,12 +4,12 @@ const SpiderThemeContext = createContext();
 
 export function SpiderThemeProvider({ children }) {
   const [isSpiderMode, setIsSpiderMode] = useState(() => {
-    const saved = localStorage.getItem('sivzz_spider_mode');
-    return saved !== null ? JSON.parse(saved) : true;
+    const saved = localStorage.getItem('sivzz_spider_mode_v2');
+    return saved !== null ? JSON.parse(saved) : false;
   });
 
   useEffect(() => {
-    localStorage.setItem('sivzz_spider_mode', JSON.stringify(isSpiderMode));
+    localStorage.setItem('sivzz_spider_mode_v2', JSON.stringify(isSpiderMode));
     if (isSpiderMode) {
       document.body.classList.add('spider-mode-active');
       document.body.classList.remove('normal-mode-active');
