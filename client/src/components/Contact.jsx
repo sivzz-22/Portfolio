@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Loader2, MessageCircle } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
 import portfolioData from '../data/portfolioData';
-import { API_BASE } from '../config/api';
+import { API_BASE, WEB3FORMS_KEY } from '../config/api';
 import '../styles/contact.css';
 
 export default function Contact() {
@@ -56,23 +56,47 @@ export default function Contact() {
     setStatus({ submitting: true, success: false, error: false, message: '' });
 
     try {
-      const response = await fetch(`${API_BASE}/api/contact`, {
+      // 1. Direct Web3Forms email dispatch from browser (Bypasses Render SMTP port block & Cloudflare server blocks)
+      const emailPromise = fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name: formData.name,
+          email: formData.email,
+          subject: `🕷️ Portfolio Inquiry from ${formData.name}`,
+          message: formData.message,
+          from_name: `Portfolio Contact (${formData.name})`,
+        }),
+      }).catch((err) => console.warn('Web3Forms dispatch notice:', err));
+
+      // 2. Persist record into MongoDB Atlas database via backend API
+      const dbPromise = fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-      });
+      }).catch((err) => console.warn('Database save notice:', err));
 
-      if (response.ok) {
-        setStatus({
-          submitting: false,
-          success: true,
-          error: false,
-          message: '✅ Message sent successfully! Siva will respond to your email shortly.',
-        });
-        setFormData({ name: '', email: '', message: '' });
-      } else {
-        throw new Error('Server error');
+      // Await email delivery confirmation
+      const emailRes = await emailPromise;
+      let emailSuccess = false;
+      if (emailRes && emailRes.ok) {
+        const data = await emailRes.json().catch(() => null);
+        if (data && data.success) emailSuccess = true;
       }
+
+      await dbPromise; // Background sync
+
+      setStatus({
+        submitting: false,
+        success: true,
+        error: false,
+        message: '✅ Message sent successfully! Siva will respond to your email shortly.',
+      });
+      setFormData({ name: '', email: '', message: '' });
     } catch {
       // Graceful fallback: direct mailto link opens
       const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);

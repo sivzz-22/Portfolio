@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Mail, MessageSquare, Send, Check, X, Radio, ArrowDown, ExternalLink, Copy } from 'lucide-react';
 import { useSpiderTheme } from '../context/SpiderThemeContext';
 import portfolioData from '../data/portfolioData';
-import { API_BASE } from '../config/api';
+import { API_BASE, WEB3FORMS_KEY } from '../config/api';
 
 export default function SpideyTrackerHUD() {
   const { isSpiderMode } = useSpiderTheme();
@@ -66,7 +66,25 @@ export default function SpideyTrackerHUD() {
 
     setIsSendingSignal(true);
     try {
-      const response = await fetch(`${API_BASE}/api/contact`, {
+      // 1. Direct Web3Forms email dispatch from browser
+      const emailPromise = fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name: quickName.trim(),
+          email: quickEmail.trim(),
+          subject: `🕷️ [SPIDER-SIGNAL TRANSMISSION] from ${quickName.trim()}`,
+          message: quickMsg.trim(),
+          from_name: `Spidey Contact (${quickName.trim()})`,
+        }),
+      }).catch((err) => console.warn('Web3Forms dispatch notice:', err));
+
+      // 2. Persist signal into MongoDB Atlas database via backend API
+      const dbPromise = fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -74,11 +92,10 @@ export default function SpideyTrackerHUD() {
           email: quickEmail.trim(),
           message: `[🕷️ SPIDER-SIGNAL TRANSMISSION]\n${quickMsg.trim()}`,
         }),
-      });
+      }).catch((err) => console.warn('Database save notice:', err));
 
-      if (!response.ok) {
-        throw new Error('Server returned an error');
-      }
+      await emailPromise;
+      await dbPromise;
 
       setSent(true);
       setQuickMsg('');

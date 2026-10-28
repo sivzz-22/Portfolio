@@ -5,3 +5,4 @@
  * If left unset, it defaults to '' (relative path for local Vite proxy).
  */
 export const API_BASE = import.meta.env.VITE_API_URL || '';
+export const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || 'ac29744e-3cc4-4c6e-878b-f01dcf970696';
