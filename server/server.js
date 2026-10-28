@@ -33,10 +33,14 @@ app.get('/', (req, res) => {
 
 // Health Check Route
 app.get('/api/health', (req, res) => {
+  const emailUser = process.env.EMAIL_USER;
+  const emailPass = process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD;
   res.json({
     status: 'online',
     timestamp: new Date().toISOString(),
     message: 'Spider-Man Portfolio Backend Service is Operational',
+    emailConfigured: !!(emailUser && emailPass),
+    emailAccount: emailUser ? emailUser.replace(/(.{2})(.*)(@.*)/, '$1***$3') : 'NOT_CONFIGURED',
   });
 });
 

@@ -58,6 +58,7 @@ export const submitContact = async (req, res) => {
     // 2. Attempt email notification via Nodemailer
     const transporter = createTransporter();
     let emailSent = false;
+    let emailError = null;
 
     if (transporter) {
       try {
@@ -83,10 +84,12 @@ export const submitContact = async (req, res) => {
         emailSent = true;
         console.log(`📧 Email dispatched successfully to: ${recipient}`);
       } catch (mailErr) {
+        emailError = mailErr.message;
         console.error('⚠️ Could not send email notification via Nodemailer:', mailErr.message);
       }
     } else {
-      console.log('ℹ️ Email dispatch skipped: EMAIL_USER and EMAIL_PASS not in server/.env (message saved to DB).');
+      emailError = 'EMAIL_CREDENTIALS_MISSING: EMAIL_USER or EMAIL_PASS not found in server environment variables.';
+      console.log('ℹ️ Email dispatch skipped: EMAIL_USER and EMAIL_PASS not in environment variables.');
     }
 
     return res.status(200).json({
@@ -94,6 +97,7 @@ export const submitContact = async (req, res) => {
       message: 'Your message has been received successfully!',
       savedToDB: mongoose.connection.readyState === 1,
       emailSent,
+      emailError: emailSent ? null : emailError,
       data: savedContact ? { id: savedContact._id, name: savedContact.name, createdAt: savedContact.createdAt } : null,
     });
   } catch (error) {
